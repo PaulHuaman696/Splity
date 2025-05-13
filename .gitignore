@@ -4,4 +4,4 @@
 
 /backend/.env
 /frontend/.env
-/frontend/src/firebase/firebase*
+/frontend/src/firebase
