@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 
 const GastoSchema = new mongoose.Schema({
-  nombre: { type: String, required: true },
+  item: { type: mongoose.Schema.Types.ObjectId, ref: "Item", required: true }, // referencia al ítem
+  categoria: { type: mongoose.Schema.Types.ObjectId, ref: "Categoria", required: true },
   monto: { type: Number, required: true },
-  fecha: { type: Date, default: Date.now },
-  categoria: { type: mongoose.Schema.Types.ObjectId, ref: "Categoria" },
+  descripcion: { type: String }, // opcional o requerido, según tu lógica
+  fecha: { type: Date, required: true },
   usuarioId: { type: String, required: true },
 });
 

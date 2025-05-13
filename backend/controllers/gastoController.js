@@ -1,15 +1,16 @@
 const Gasto = require("../models/Gasto");
 
 const createGasto = async (req, res) => {
-  const { nombre, monto, fecha, categoriaId } = req.body;
-  const usuarioId = req.user.uid; // El usuario se obtiene del middleware
+  const { itemId, categoriaId, monto, descripcion, fecha } = req.body;
+  const usuarioId = req.user.uid; // obtenido del middleware con Firebase Admin
 
   try {
     const nuevoGasto = new Gasto({
-      nombre,
-      monto,
-      fecha,
+      item: itemId,
       categoria: categoriaId,
+      monto,
+      descripcion,
+      fecha,
       usuarioId,
     });
 

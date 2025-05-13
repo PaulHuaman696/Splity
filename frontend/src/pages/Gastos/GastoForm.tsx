@@ -57,10 +57,11 @@ const GastoForm = () => {
 
     try {
       const body = {
-        categoria,
+        itemId: items[0]._id,
+        categoriaId: categorias[0]._id,
         monto: parseFloat(monto),
-        descripcion,
-        fecha,
+        descripcion: descripcion,
+        fecha: fecha.toString(),
       };
 
       await authFetch("http://localhost:4000/api/expense/", {
@@ -122,74 +123,70 @@ const GastoForm = () => {
     <div style={styles.container}>
       <h2 style={styles.title}>Registrar nuevo gasto</h2>
       <form onSubmit={handleSubmit} style={styles.form}>
-        <label style={styles.label}>
-          Categoría:
-          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-            <select
-              value={categoria}
-              onChange={(e) => setCategoria(e.target.value)}
-              style={styles.input}
-              required>
-              <option value="">-- Selecciona --</option>
-              {categorias.map((cat) => (
-                <option key={cat._id} value={cat._id}>
-                  {cat.nombre}
-                </option>
-              ))}
-            </select>
-            <button
-              type="button"
-              onClick={() => setMostrarModal(true)}
-              style={styles.addButton}>
-              +
-            </button>
-          </div>
-        </label>
-        <label style={styles.label}>
-          Ítem:
-          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-            <input
-              type="text"
-              value={busquedaItem}
-              onChange={(e) => {
-                const value = e.target.value;
-                setBusquedaItem(value);
+        <div style={styles.contenedor}>
+          <label style={styles.label}>
+            Categoría:
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              <select
+                value={categoria}
+                onChange={(e) => setCategoria(e.target.value)}
+                style={styles.input}
+                required>
+                <option value="">-- Selecciona --</option>
+                {categorias.map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.nombre}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={() => setMostrarModal(true)}
+                style={styles.addButton}>
+                +
+              </button>
+            </div>
+          </label>
+          <label style={styles.label}>
+            Ítem:
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              <input
+                type="text"
+                value={busquedaItem}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setBusquedaItem(value);
 
-                // Buscar el ítem
-                const itemSeleccionado = items.find(
-                  (item) => item.nombre.toLowerCase() === value.toLowerCase()
-                );
-                if (itemSeleccionado) {
-                  console.log("Item encontrado:", itemSeleccionado);
-                  console.log(
-                    "categoriaId del item:",
-                    itemSeleccionado.categoria._id
+                  // Buscar el ítem
+                  const itemSeleccionado = items.find(
+                    (item) => item.nombre.toLowerCase() === value.toLowerCase()
                   );
-                  console.log("Todas las categorías:", categorias);
-                  // Asignar la categoría correctamente
-                  setCategoria(itemSeleccionado.categoria._id);
-                } else {
-                  // Si no se encuentra el ítem, puedes limpiar la categoría (opcional)
-                  setCategoria("");
-                }
-              }}
-              list="lista-items"
-              style={styles.input}
-              placeholder="Buscar o seleccionar ítem"
-            />
-            <datalist id="lista-items">
-              {items.map((item) => (
-                <option key={item._id} value={item.nombre} />
-              ))}
-            </datalist>
-            <button
-              type="button"
-              onClick={() => setMostrarModalItem(true)}
-              style={styles.addButton}>
-              +
-            </button>
-          </div>
-        </label>
+                  if (itemSeleccionado) {
+                    // Asignar la categoría correctamente
+                    setCategoria(itemSeleccionado.categoria._id);
+                  } else {
+                    // Si no se encuentra el ítem, puedes limpiar la categoría (opcional)
+                    setCategoria("");
+                  }
+                }}
+                list="lista-items"
+                style={styles.input}
+                placeholder="Buscar o seleccionar ítem"
+              />
+              <datalist id="lista-items">
+                {items.map((item) => (
+                  <option key={item._id} value={item.nombre} />
+                ))}
+              </datalist>
+              <button
+                type="button"
+                onClick={() => setMostrarModalItem(true)}
+                style={styles.addButton}>
+                +
+              </button>
+            </div>
+          </label>
+        </div>
         <label style={styles.label}>
           Monto:
           <input
@@ -266,12 +263,14 @@ const styles: { [key: string]: React.CSSProperties } = {
     color: "#374151",
     display: "flex",
     flexDirection: "column",
+    flex: 1, 
   },
   input: {
     padding: "10px",
     borderRadius: "6px",
     border: "1px solid #d1d5db",
     fontSize: "16px",
+    width:"100%"
   },
   button: {
     backgroundColor: "#4f46e5",
@@ -292,6 +291,11 @@ const styles: { [key: string]: React.CSSProperties } = {
     border: "none",
     cursor: "pointer",
   },
+  contenedor: {
+    display: "flex",
+    gap: '10px',
+    width: '100%'
+  }
 };
 
 export default GastoForm;
