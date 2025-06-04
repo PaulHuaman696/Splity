@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { authFetch } from "../../utils/authFetch";
 import EditGastoModal from "../../components/EditGastoModal/EditGastoModal";
 import ConfirmDeleteModal from "../../components/ConfirmDeleteModal/ConfirmDeleteModal";

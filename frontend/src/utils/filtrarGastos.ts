@@ -24,7 +24,7 @@ export const filtrarYGastosOrdenados = (gastos: Gasto[], filtros: Filtros): Gast
   } = filtros;
 
   if (categoriaSeleccionada) {
-    filtrados = filtrados.filter(g => g.itemId?.categoriaId._id === categoriaSeleccionada);
+    filtrados = filtrados.filter(g => g.itemId?.categoria._id === categoriaSeleccionada);
   }
 
   if (itemBuscar.trim()) {
@@ -55,7 +55,7 @@ export const filtrarYGastosOrdenados = (gastos: Gasto[], filtros: Filtros): Gast
 
   if (ordenAlfabetico === "categoria") {
     filtrados.sort((a, b) =>
-      (a.itemId?.categoriaId.nombre || "").localeCompare(b.itemId?.categoriaId.nombre || "")
+      (a.itemId?.categoria.nombre || "").localeCompare(b.itemId?.categoria.nombre || "")
     );
   } else if (ordenAlfabetico === "item") {
     filtrados.sort((a, b) =>

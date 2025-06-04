@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { authFetch } from "../../utils/authFetch";
 import UnirseProyectoModal from "../../components/UnirseProyectoModal";
 import ModalAgregarParticipantes from "../../components/ModalAgregarParticipantes";

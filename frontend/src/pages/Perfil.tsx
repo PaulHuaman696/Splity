@@ -1,6 +1,4 @@
 // src/pages/Perfil.tsx
-import React from 'react';
-
 const Perfil = () => {
   return (
     <div>

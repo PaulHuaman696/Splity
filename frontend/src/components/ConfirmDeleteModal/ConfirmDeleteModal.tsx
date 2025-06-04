@@ -1,5 +1,4 @@
 // src/components/ConfirmDeleteModal.tsx
-import React from "react";
 import { authFetch } from "../../utils/authFetch";
 import "./ConfirmDeleteModal.css";
 
