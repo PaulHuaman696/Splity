@@ -1,0 +1,91 @@
+.login-container {
+  background-color: #FFF8E7;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.login-card {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 900px;
+  background-color: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.login-left {
+  flex: 1;
+  background-color: #1E3A8A;
+  color: white;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-brand {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.login-slogan {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.login-right {
+  flex: 1;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.login-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #1E3A8A;
+  text-align: center;
+}
+
+.login-input {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.login-button {
+  padding: 0.75rem;
+  border-radius: 8px;
+  background-color: #1E3A8A;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.login-error {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.login-register-text {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.login-link {
+  color: #1E3A8A;
+  text-decoration: none;
+  font-weight: bold;
+}

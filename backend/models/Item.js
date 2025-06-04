@@ -6,4 +6,6 @@ const ItemSchema = new mongoose.Schema({
   usuarioId: { type: String, required: true }, // importante para multiusuario
 });
 
+ItemSchema.index({ nombre: 1, usuarioId: 1 }, { unique: true });
+
 module.exports = mongoose.model("Item", ItemSchema);

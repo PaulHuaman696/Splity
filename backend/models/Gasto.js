@@ -1,12 +1,43 @@
+// models/Gasto.js
 const mongoose = require("mongoose");
 
-const GastoSchema = new mongoose.Schema({
-  item: { type: mongoose.Schema.Types.ObjectId, ref: "Item", required: true }, // referencia al ítem
-  categoria: { type: mongoose.Schema.Types.ObjectId, ref: "Categoria", required: true },
-  monto: { type: Number, required: true },
-  descripcion: { type: String }, // opcional o requerido, según tu lógica
-  fecha: { type: Date, required: true },
-  usuarioId: { type: String, required: true },
-});
+const gastoSchema = new mongoose.Schema(
+  {
+    usuarioUid: {
+      type: String,
+      required: true,
+    },
+    descripcion: {
+      type: String,
+      required: true,
+    },
+    monto: {
+      type: Number,
+      required: true,
+    },
+    fecha: {
+      type: Date,
+      default: Date.now,
+    },
+    categoria: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Categoria",
+    },
+    itemId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Item",
+    },
+    tipo: {
+      type: String,
+      enum: ["individual", "compartido"],
+      default: "individual",
+    },
+    proyectoId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ProyectoGasto",
+    },
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model("Gasto", GastoSchema);
+module.exports = mongoose.model("Gasto", gastoSchema);

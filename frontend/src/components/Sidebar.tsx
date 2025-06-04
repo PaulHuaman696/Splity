@@ -3,10 +3,16 @@ import { NavLink, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const [gastosOpen, setGastosOpen] = useState(false);
+  const [ingresosOpen, setIngresosOpen] = useState(false);
+  const [proyectosOpen, setProyectosOpen] = useState(false);
   const location = useLocation();
 
   // Detecta si la ruta actual es parte del módulo de gastos
   const isGastoPath = location.pathname.startsWith("/gastos");
+  // Detecta si la ruta actual es parte del módulo de gastos
+  const isIngresoPath = location.pathname.startsWith("/ingresos");
+  // Detecta si la ruta actual es parte del módulo de gastos
+  const isProyectoPath = location.pathname.startsWith("/ingresos");
 
   return (
     <aside style={sidebarStyle}>
@@ -20,14 +26,42 @@ const Sidebar = () => {
           Dashboard
         </NavLink>
 
-        <NavLink
-          to="/ingresos"
-          style={({ isActive }) =>
-            isActive ? { ...styles.link, ...styles.active } : styles.link
-          }
-        >
-          Ingresos
-        </NavLink>
+        <li style={{ marginTop: "10px" }}>
+          <div
+            onClick={() => setIngresosOpen(!ingresosOpen)}
+            style={{
+              ...styles.link,
+              ...(isIngresoPath ? styles.active : {}),
+              cursor: "pointer",
+            }}
+          >
+            Ingresos {ingresosOpen ? "▲" : "▼"}
+          </div>
+          {ingresosOpen && (
+            <ul style={{ listStyle: "none", paddingLeft: "15px", marginTop: "5px" }}>
+              <li>
+                <NavLink
+                  to="/ingresos/crear"
+                  style={({ isActive }) =>
+                    isActive ? { ...styles.subLink, ...styles.activeSub } : styles.subLink
+                  }
+                >
+                  Crear Ingreso
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/ingresos/lista"
+                  style={({ isActive }) =>
+                    isActive ? { ...styles.subLink, ...styles.activeSub } : styles.subLink
+                  }
+                >
+                  Ver Ingresos
+                </NavLink>
+              </li>
+            </ul>
+          )}
+        </li>
 
         <li style={{ marginTop: "10px" }}>
           <div
@@ -66,14 +100,42 @@ const Sidebar = () => {
           )}
         </li>
 
-        <NavLink
-          to="/compartidos"
-          style={({ isActive }) =>
-            isActive ? { ...styles.link, ...styles.active } : styles.link
-          }
-        >
-          Compartidos
-        </NavLink>
+        <li style={{ marginTop: "10px" }}>
+          <div
+            onClick={() => setProyectosOpen(!proyectosOpen)}
+            style={{
+              ...styles.link,
+              ...(isProyectoPath ? styles.active : {}),
+              cursor: "pointer",
+            }}
+          >
+            Proyectos {proyectosOpen ? "▲" : "▼"}
+          </div>
+          {proyectosOpen && (
+            <ul style={{ listStyle: "none", paddingLeft: "15px", marginTop: "5px" }}>
+              <li>
+                <NavLink
+                  to="/proyectos-gastos/crear"
+                  style={({ isActive }) =>
+                    isActive ? { ...styles.subLink, ...styles.activeSub } : styles.subLink
+                  }
+                >
+                  Crear Proyecto
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/proyectos-gastos/lista"
+                  style={({ isActive }) =>
+                    isActive ? { ...styles.subLink, ...styles.activeSub } : styles.subLink
+                  }
+                >
+                  Ver Proyectos
+                </NavLink>
+              </li>
+            </ul>
+          )}
+        </li>
 
         <NavLink
           to="/reportes"
@@ -101,10 +163,6 @@ const sidebarStyle: React.CSSProperties = {
   width: "220px",
   backgroundColor: "#f9fafb",
   padding: "1rem",
-  height: "100vh",
-  position: "fixed",
-  top: "60px",
-  left: 0,
   borderRight: "1px solid #e5e7eb",
   boxShadow: "2px 0 5px rgba(0,0,0,0.05)",
 };

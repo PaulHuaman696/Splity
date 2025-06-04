@@ -2,7 +2,7 @@ const Categoria = require("../models/Categoria");
 
 const createCategoria = async (req, res) => {
   const { nombre } = req.body;
-  const userId = req.user.uid; 
+  const userId = req.user.uid;
 
   console.log("Usuario autenticado:", userId);
 
@@ -11,12 +11,18 @@ const createCategoria = async (req, res) => {
       nombre,
       userId,
     });
-    
+
     await nuevaCategoria.save();
     return res.status(201).json(nuevaCategoria);
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ mensaje: "Error al crear la categoría", error });
+    if (error.code === 11000) {
+      return res
+        .status(400)
+        .json({ mensaje: "Ya tienes una categoría con ese nombre." });
+    }
+    return res
+      .status(500)
+      .json({ mensaje: "Error al crear la categoría", error });
   }
 };
 
@@ -27,7 +33,9 @@ const getCategoriasByUser = async (req, res) => {
     const categorias = await Categoria.find({ userId });
     return res.status(200).json(categorias);
   } catch (error) {
-    return res.status(500).json({ mensaje: "Error al obtener las categorías", error });
+    return res
+      .status(500)
+      .json({ mensaje: "Error al obtener las categorías", error });
   }
 };
 

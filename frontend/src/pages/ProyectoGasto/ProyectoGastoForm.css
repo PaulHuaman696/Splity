@@ -1,0 +1,47 @@
+.proyecto-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.proyecto-title {
+  width: 100%;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.proyecto-label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.proyecto-input {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0 12px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.proyecto-button {
+  background-color: #4f46e5;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.proyecto-submit {
+  background-color: #38b2ac;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

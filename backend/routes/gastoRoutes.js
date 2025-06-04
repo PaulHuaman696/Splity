@@ -9,4 +9,12 @@ router.post("/", verifyToken, gastoController.createGasto);
 // Obtener los gastos de un usuario
 router.get("/", verifyToken, gastoController.getGastosByUser);
 
+// Editar un gasto por ID
+router.put("/:id", verifyToken, gastoController.updateGasto);
+
+// Eliminar un gasto por ID
+router.delete("/:id", verifyToken, gastoController.deleteGasto);
+
+router.get("/reportes", verifyToken, gastoController.getGastosParaReporte);
+
 module.exports = router;

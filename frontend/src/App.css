@@ -11,3 +11,22 @@ body, html, #root {
   background-color: #f9fafb;
 }
 
+select, select option {
+  color: #111827; /* texto oscuro legible */
+  background-color: #ffffff; /* fondo blanco */
+}
+
+select option:hover {
+  background-color: #f3f4f6;
+}
+
+input[type="text"],
+input[type="date"] {
+  background-color: #ffffff;
+  color: #111827;
+  border: 1px solid #d1d5db;
+}
+
+input::placeholder {
+  color: #6b7280; /* gris tenue */
+}

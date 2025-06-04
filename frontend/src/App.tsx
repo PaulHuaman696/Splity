@@ -1,6 +1,6 @@
 import './App.css';
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute'; // Importa ProtectedRoute
 import AppRoutes from './routes/AppRoutes';

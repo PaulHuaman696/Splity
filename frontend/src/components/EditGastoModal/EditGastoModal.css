@@ -1,0 +1,164 @@
+/* Variables para colores y estilos generales */
+:root {
+  --primary-color: #2563eb;
+  --secondary-color: #6b7280;
+  --light-bg: #f9fafb;
+  --dark-bg: #1f2937;
+  --neutral-bg: #f3f4f6;
+  --border-color: #d1d5db;
+  --hover-color: #4f92e8;
+  --hover-bg: #e5e7eb;
+  --font-size: 14px;
+  --font-weight: 600;
+  --border-radius: 8px;
+  --transition: 0.3s ease;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(2px);
+}
+
+.modal {
+  background-color: #ffffff;
+  padding: 32px;
+  border-radius: var(--border-radius);
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;  /* Máxima altura del modal */
+  overflow: hidden;  /* Evita que todo el modal haga scroll */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+  z-index: 10000;
+}
+
+.form-group-row {
+  display: flex;
+  gap: 16px;  /* Espacio entre los campos */
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--dark-bg);
+  text-align: center;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 10px;
+  position: sticky;
+  top: 0;  /* Mantener el título en la parte superior */
+  background-color: white;  /* Asegura que el título no se vea transparente */
+  z-index: 1;  /* Asegura que el título esté por encima del contenido */
+  padding-top: 0;  /* Evita un margen extra encima del título */
+}
+
+.form-container {
+  flex: 1;  /* El contenido de la forma ocupará el resto del espacio */
+  overflow-y: auto;  /* Permite desplazamiento solo en el contenido del formulario */
+  padding-right: 16px;  /* Asegura que el scroll no se cubra con contenido */
+}
+
+.form-group {
+  margin-bottom: 5px;
+}
+
+.label {
+  display: block;
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  margin-bottom: 6px;
+  color: var(--secondary-color);
+  width: 100%;
+}
+
+.input,
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  font-size: var(--font-size);
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus,
+select:focus {
+  border-color: var(--primary-color);
+}
+
+.input,
+select {
+  background-color: var(--light-bg);
+}
+
+.datalist {
+  padding: 5px;
+  font-size: var(--font-size);
+}
+
+.form-group-row > div {
+  flex: 1;
+  min-width: 200px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.button {
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  transition: background-color var(--transition);
+  width: 120px;
+}
+
+.cancel-button {
+  background-color: var(--neutral-bg);
+  color: var(--dark-bg);
+}
+
+.cancel-button:hover {
+  background-color: var(--hover-bg);
+}
+
+.save-button {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.save-button:hover {
+  background-color: var(--hover-color);
+}
+
+.close-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 18px;
+  color: #ff4d4d;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-icon:hover {
+  color: #e60000;
+}

@@ -1,0 +1,249 @@
+/* Estilos generales para el contenedor */
+.gastos-container {
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  margin-top: 1.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.block {
+  display: block;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.max-w-xs {
+  max-width: 20rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.btn-export {
+  background-color: #2563eb;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  transition: background-color 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-export:hover {
+  background-color: #1d4ed8;
+}
+
+.gastos-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.total-gasto {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem;
+  color: #374151;
+}
+
+.subtotales-usuarios {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.subtotales-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #374151;
+}
+
+.subtotales-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.subtotal-item {
+  display: flex;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  color: #374151;
+  transition: background-color 0.2s ease;
+}
+
+.subtotal-item:hover {
+  background-color: #f3f4f6;
+}
+
+.subtotal-nombre {
+  font-weight: 500;
+}
+
+.subtotal-monto {
+  font-weight: 600;
+  color: #16a34a;
+}
+
+.total-gasto-value {
+  color: #16a34a;
+  /* Color verde */
+}
+
+.input {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+}
+
+#usuario-select {
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Estilos de la cuadrícula para las tarjetas */
+.gastos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  /* Responsivo */
+  gap: 1.5rem;
+}
+
+/* Estilos para cada tarjeta de gasto */
+.gasto-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 1.25rem;
+  border: 1px solid #e5e7eb;
+  /* Borde gris claro */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  /* Sombra sutil */
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.gasto-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Título del item */
+.gasto-item {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2563eb;
+  /* Azul claro */
+  margin-bottom: 0.5rem;
+}
+
+/* Detalles del gasto */
+.gasto-detail {
+  font-size: 0.95rem;
+  color: #4b5563;
+  /* Gris más oscuro */
+  margin-bottom: 0.4rem;
+  line-height: 1.4;
+}
+
+.gasto-detail strong {
+  font-weight: 600;
+  color: #111827;
+  /* Texto destacado */
+}
+
+/* Estilo para los errores */
+.error-text {
+  color: #f87171;
+  /* Rojo */
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Estados de exportación */
+.btn-export[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.btn-export[disabled]::after {
+  content: "";
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid white;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.btn-export {
+  background-color: #2563eb;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.btn-export:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.btn-export:active {
+  transform: scale(0.98);
+}
+
+/* Spinner animation */
+@keyframes spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}

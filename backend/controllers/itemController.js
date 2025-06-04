@@ -3,7 +3,15 @@ const Categoria = require("../models/Categoria");
 
 const createItem = async (req, res) => {
   const { nombre, categoriaId } = req.body;
-  const usuarioId = req.user.uid; // Suponiendo que el token contiene el ID del usuario
+  const usuarioId = req.user?.uid; // Suponiendo que el token contiene el ID del usuario
+
+  if (!usuarioId) {
+    return res.status(401).json({ mensaje: "Usuario no autenticado" });
+  }
+
+  if (!nombre || !categoriaId) {
+    return res.status(400).json({ mensaje: "Nombre y categoría son requeridos" });
+  }
 
   try {
     const categoria = await Categoria.findById(categoriaId);
@@ -13,12 +21,14 @@ const createItem = async (req, res) => {
 
     const nuevoItem = new Item({
       nombre,
-      categoria: categoria._id,
+      categoria: categoriaId,
       usuarioId,
     });
 
     await nuevoItem.save();
-    return res.status(201).json(nuevoItem);
+    // Aquí populamos antes de devolverlo
+    const itemConCategoria = await Item.findById(nuevoItem._id).populate("categoria");
+    return res.status(201).json(itemConCategoria);
   } catch (error) {
     return res.status(500).json({ mensaje: "Error al crear el item", error });
   }

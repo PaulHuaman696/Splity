@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import CrearCategoriaModal from "../../components/CrearCategoriaModal";
+import CrearCategoriaModal from "../../components/CrearCategoriaModal/CrearCategoriaModal";
 import { authFetch } from "../../utils/authFetch";
 import CrearItemModal from "../../components/CrearItemModal";
+import "./GastoForm.css";
 
 const GastoForm = () => {
   const [categorias, setCategorias] = useState<
@@ -13,7 +14,7 @@ const GastoForm = () => {
       nombre: string;
       categoria: { _id: string; nombre: string };
     }[]
-  >([]); // Estado para ítems
+  >([]);
   const [categoria, setCategoria] = useState("");
   const [monto, setMonto] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -25,13 +26,19 @@ const GastoForm = () => {
     return `${yyyy}-${mm}-${dd}`;
   });
   const [mostrarModal, setMostrarModal] = useState(false);
-  const [mostrarModalItem, setMostrarModalItem] = useState(false); // Modal para ítem
-  const [busquedaItem, setBusquedaItem] = useState(""); // Estado para el buscador de ítems
-
+  const [mostrarModalItem, setMostrarModalItem] = useState(false);
+  const [busquedaItem, setBusquedaItem] = useState("");
+  const [tipo, setTipo] = useState<"individual" | "compartido">("individual");
+  const [proyectos, setProyectos] = useState<{ _id: string; nombre: string }[]>(
+    []
+  );
+  const [proyectoId, setProyectoId] = useState("");
+  const [proyectoIndividualId, setProyectoIndividualId] = useState("");
+  const api_url = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
-        const data = await authFetch("http://localhost:4000/api/categories");
+        const data = await authFetch(`${api_url}/api/categories`);
         setCategorias(data);
       } catch (error) {
         console.error("Error al obtener categorías:", error);
@@ -39,9 +46,7 @@ const GastoForm = () => {
     };
     const fetchItems = async () => {
       try {
-        const data = await authFetch(
-          "http://localhost:4000/api/items/buscar?query="
-        );
+        const data = await authFetch(`${api_url}/api/items/buscar?query=`);
         setItems(data);
       } catch (error) {
         console.error("Error al obtener items:", error);
@@ -52,30 +57,97 @@ const GastoForm = () => {
     fetchItems();
   }, []);
 
+  // Usar useEffect para llamar fetchProyectos solo una vez
+  useEffect(() => {
+    const fetchProyectos = async () => {
+      try {
+        const proyectosData = await authFetch(`${api_url}/api/projects`);
+        setProyectos(proyectosData);
+      } catch (error) {
+        console.error("Error al obtener proyectos:", error);
+      }
+    };
+
+    const fetchProyectoIndividual = async () => {
+      try {
+        const individual = await authFetch(
+          `${api_url}/api/projects/individual`
+        );
+        setProyectoIndividualId(individual._id);
+        if (tipo === "individual") {
+          setProyectoId(individual._id);
+        }
+      } catch (error) {
+        console.error("Error al obtener proyecto individual:", error);
+      }
+    };
+
+    fetchProyectos();
+    fetchProyectoIndividual();
+  }, [tipo]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      const body = {
-        itemId: items[0]._id,
-        categoriaId: categorias[0]._id,
-        monto: parseFloat(monto),
-        descripcion: descripcion,
-        fecha: fecha.toString(),
-      };
+    // Buscar el item por nombre
+    const itemSeleccionado = items.find(
+      (item) => item.nombre.toLowerCase() === busquedaItem.toLowerCase()
+    );
 
-      await authFetch("http://localhost:4000/api/expense/", {
+    if (!itemSeleccionado) {
+      alert(
+        "El ítem ingresado no existe. Crea uno nuevo o selecciona uno válido."
+      );
+      return;
+    }
+
+    if (!categoria) {
+      alert("Por favor selecciona una categoría.");
+      return;
+    }
+
+    if (tipo === "compartido" && !proyectoId) {
+      alert("Selecciona un proyecto compartido antes de registrar el gasto.");
+      return;
+    }
+
+    if (tipo === "individual" && !proyectoIndividualId) {
+      alert(
+        "No se encontró el proyecto individual asignado. Por favor contacta al administrador."
+      );
+      return;
+    }
+
+    const body = {
+      itemId: itemSeleccionado._id,
+      categoria, // ojo que backend espera 'categoria'
+      monto: parseFloat(monto),
+      descripcion,
+      fecha: fecha.toString(),
+      tipo,
+      proyectoId: tipo === "individual" ? proyectoIndividualId : proyectoId,
+    };
+
+    try {
+      await authFetch(`${api_url}/api/expense/`, {
         method: "POST",
         body: JSON.stringify(body),
       });
 
       alert("Gasto registrado correctamente.");
 
-      // Limpiar campos
+      // Limpiar campos (excepto proyecto y tipo para comodidad)
       setCategoria("");
+      setBusquedaItem("");
       setMonto("");
       setDescripcion("");
-      setFecha("");
+      setFecha(() => {
+        const hoy = new Date();
+        const yyyy = hoy.getFullYear();
+        const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+        const dd = String(hoy.getDate()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd}`;
+      });
     } catch (error) {
       console.error("Error al registrar gasto:", error);
       alert("Hubo un error al registrar el gasto.");
@@ -93,44 +165,87 @@ const GastoForm = () => {
   const handleItemCreado = (nuevoItem: {
     _id: string;
     nombre: string;
-    categoriaId: string;
+    categoria: {
+      _id: string;
+      nombre: string;
+    };
   }) => {
-    // Buscar la categoría completa por ID
-    const categoriaCompleta = categorias.find(
-      (cat) => cat._id === nuevoItem.categoriaId
-    );
-
-    if (!categoriaCompleta) {
+    if (!nuevoItem.categoria) {
       console.error("Categoría no encontrada para el nuevo ítem");
       return;
     }
 
-    // Crear un item con categoría completa (id y nombre)
     const itemConCategoria = {
       _id: nuevoItem._id,
       nombre: nuevoItem.nombre,
       categoria: {
-        _id: categoriaCompleta._id,
-        nombre: categoriaCompleta.nombre,
+        _id: nuevoItem.categoria._id,
+        nombre: nuevoItem.categoria.nombre,
       },
     };
 
     setItems((prev) => [...prev, itemConCategoria]);
-    setCategoria(categoriaCompleta._id);
+    setCategoria(nuevoItem.categoria._id);
+    setBusquedaItem(nuevoItem.nombre);
   };
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.title}>Registrar nuevo gasto</h2>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.contenedor}>
-          <label style={styles.label}>
+    <div className="gasto-container">
+      <h2 className="gasto-title">Registrar nuevo gasto</h2>
+      <form onSubmit={handleSubmit} className="gasto-form">
+        <div className="gasto-contenedor">
+          <label className="gasto-label">
+            Tipo de gasto:
+            <select
+              value={tipo}
+              onChange={(e) => {
+                const valor = e.target.value as "individual" | "compartido";
+                setTipo(valor);
+                if (valor === "individual") {
+                  setProyectoId(proyectoIndividualId);
+                } else {
+                  setProyectoId("");
+                }
+              }}
+              className="gasto-input"
+              required>
+              <option value="individual">Individual</option>
+              <option value="compartido">Compartido</option>
+            </select>
+          </label>
+
+          <label className="gasto-label">
+            Proyecto:
+            <select
+              value={proyectoId}
+              onChange={(e) => setProyectoId(e.target.value)}
+              className="gasto-input"
+              disabled={tipo === "individual"}
+              required={tipo === "compartido"}>
+              <option value="">
+                {tipo === "compartido"
+                  ? "-- Selecciona un proyecto --"
+                  : "Proyecto individual (seleccionado automáticamente)"}
+              </option>
+              {proyectos
+                .filter((p) => p._id !== proyectoIndividualId)
+                .map((proy) => (
+                  <option key={proy._id} value={proy._id}>
+                    {proy.nombre}
+                  </option>
+                ))}
+            </select>
+          </label>
+        </div>
+
+        <div className="gasto-contenedor">
+          <label className="gasto-label">
             Categoría:
             <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
               <select
                 value={categoria}
                 onChange={(e) => setCategoria(e.target.value)}
-                style={styles.input}
+                className="gasto-input"
                 required>
                 <option value="">-- Selecciona --</option>
                 {categorias.map((cat) => (
@@ -142,12 +257,12 @@ const GastoForm = () => {
               <button
                 type="button"
                 onClick={() => setMostrarModal(true)}
-                style={styles.addButton}>
+                className="gasto-add-button">
                 +
               </button>
             </div>
           </label>
-          <label style={styles.label}>
+          <label className="gasto-label">
             Ítem:
             <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
               <input
@@ -157,20 +272,17 @@ const GastoForm = () => {
                   const value = e.target.value;
                   setBusquedaItem(value);
 
-                  // Buscar el ítem
                   const itemSeleccionado = items.find(
                     (item) => item.nombre.toLowerCase() === value.toLowerCase()
                   );
                   if (itemSeleccionado) {
-                    // Asignar la categoría correctamente
                     setCategoria(itemSeleccionado.categoria._id);
                   } else {
-                    // Si no se encuentra el ítem, puedes limpiar la categoría (opcional)
                     setCategoria("");
                   }
                 }}
                 list="lista-items"
-                style={styles.input}
+                className="gasto-input"
                 placeholder="Buscar o seleccionar ítem"
               />
               <datalist id="lista-items">
@@ -181,43 +293,49 @@ const GastoForm = () => {
               <button
                 type="button"
                 onClick={() => setMostrarModalItem(true)}
-                style={styles.addButton}>
+                className="gasto-add-button">
                 +
               </button>
             </div>
           </label>
         </div>
-        <label style={styles.label}>
+
+        {busquedaItem &&
+          !items.some(
+            (item) => item.nombre.toLowerCase() === busquedaItem.toLowerCase()
+          )}
+
+        <label className="gasto-label">
           Monto:
           <input
             type="number"
             value={monto}
             onChange={(e) => setMonto(e.target.value)}
-            style={styles.input}
+            className="gasto-input"
             required
           />
         </label>
-        <label style={styles.label}>
+        <label className="gasto-label">
           Descripción:
           <input
             type="text"
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
-            style={styles.input}
+            className="gasto-input"
           />
         </label>
-        <label style={styles.label}>
+        <label className="gasto-label">
           Fecha:
           <input
             type="date"
             value={fecha}
             onChange={(e) => setFecha(e.target.value)}
-            style={styles.input}
+            className="gasto-input"
             required
           />
         </label>
 
-        <button type="submit" style={styles.button}>
+        <button type="submit" className="gasto-button">
           Guardar Gasto
         </button>
       </form>
@@ -236,66 +354,6 @@ const GastoForm = () => {
       )}
     </div>
   );
-};
-
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    background: "#f3f4f6",
-    padding: "30px",
-    borderRadius: "12px",
-    maxWidth: "600px",
-    margin: "0 auto",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-  },
-  title: {
-    fontSize: "24px",
-    marginBottom: "20px",
-    textAlign: "center",
-    color: "#1f2937",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "16px",
-  },
-  label: {
-    fontWeight: "bold",
-    color: "#374151",
-    display: "flex",
-    flexDirection: "column",
-    flex: 1, 
-  },
-  input: {
-    padding: "10px",
-    borderRadius: "6px",
-    border: "1px solid #d1d5db",
-    fontSize: "16px",
-    width:"100%"
-  },
-  button: {
-    backgroundColor: "#4f46e5",
-    color: "white",
-    padding: "12px",
-    fontSize: "16px",
-    borderRadius: "6px",
-    border: "none",
-    cursor: "pointer",
-    marginTop: "10px",
-  },
-  addButton: {
-    padding: "8px 12px",
-    fontSize: "18px",
-    borderRadius: "6px",
-    backgroundColor: "#10b981",
-    color: "#fff",
-    border: "none",
-    cursor: "pointer",
-  },
-  contenedor: {
-    display: "flex",
-    gap: '10px',
-    width: '100%'
-  }
 };
 
 export default GastoForm;

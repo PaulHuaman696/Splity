@@ -1,0 +1,98 @@
+/* GastosList.css */
+
+.gastos-container {
+  background: #f9fafb;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.gastos-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #1f2937;
+  letter-spacing: 0.5px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #6366f1;
+  max-width: 300px;
+  margin-inline: auto;
+}
+
+.filtros-container {
+  margin-bottom: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  background-color: #f9fafb;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.filtro-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  min-width: 150px;
+}
+
+.filtro-input,
+.filtro-select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  margin-top: 4px;
+  outline-color: #2563eb;
+  background-color: #ffffff;
+}
+
+.gastos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.gastos-th {
+  background-color: #4f46e5;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+
+.gastos-tr {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.gastos-td {
+  padding: 12px;
+  color: #374151;
+}
+
+.gastos-acciones {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.gastos-boton {
+  text-decoration: none;
+  cursor: pointer;
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.gastos-boton:hover {
+  background-color: #4f46e5;
+}

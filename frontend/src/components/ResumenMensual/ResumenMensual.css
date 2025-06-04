@@ -1,0 +1,44 @@
+.resumen-mensual-container {
+  padding: 1rem 1.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  background-color: #ffffff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 1rem auto;
+}
+
+.resumen-mensual-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #2563eb; /* azul */
+  text-align: center;
+}
+
+.resumen-mensual-item {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #374151; /* gris oscuro */
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+.resumen-mensual-item.balance {
+  font-weight: 700;
+  color: #16a34a; /* verde para balance positivo */
+}
+
+.resumen-mensual-item.balance.negative {
+  color: #dc2626; /* rojo para balance negativo */
+}
+
+.error-text {
+  color: #dc2626;
+  text-align: center;
+  font-weight: 600;
+  margin: 1rem 0;
+}

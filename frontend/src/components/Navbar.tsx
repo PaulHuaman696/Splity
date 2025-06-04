@@ -23,7 +23,7 @@ const Navbar = () => {
 
 // ✅ Tipado correcto para estilos en TypeScript
 const navbarStyle: React.CSSProperties = {
-  height: "60px",
+  height: "70px",
   backgroundColor: "#4f46e5",
   color: "white",
   display: "flex",

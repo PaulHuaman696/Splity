@@ -1,0 +1,98 @@
+/* Contenedor general */
+.reportes-container {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 2rem 1.5rem;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1f2937; /* gris oscuro */
+}
+
+/* Título principal */
+.reportes-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #2563eb; /* azul */
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Estilos para el contenedor del selector de proyecto */
+.proyecto-select-container {
+  background-color: #ffffff;
+  padding: 1.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  max-width: 500px;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+/* Etiqueta */
+.proyecto-select-container label {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 1rem;
+}
+
+/* Select estilizado */
+.proyecto-select-container select.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background-color: #f9fafb;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  color: #111827;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.proyecto-select-container select.input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+  outline: none;
+}
+
+/* Estilo para opciones (solo para navegadores que lo soportan) */
+.proyecto-select-container select.input option {
+  background-color: #ffffff;
+  color: #111827;
+}
+
+/* Mensaje de error */
+.error-text {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* Espacio vertical entre secciones */
+.reportes-seccion {
+  margin-bottom: 3rem;
+}
+
+/* Para ajustar los componentes hijos (ResumenMensual, GastosPorProyecto, BalanceCompartido) */
+.reportes-seccion > * {
+  margin-top: 1rem;
+}
+
+/* Responsive: ajustar padding en pantallas pequeñas */
+@media (max-width: 640px) {
+  .reportes-container {
+    padding: 1rem 1rem;
+  }
+
+  .reportes-title {
+    font-size: 2rem;
+  }
+
+  .proyecto-select-container {
+    max-width: 100%;
+  }
+}

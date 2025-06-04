@@ -12,7 +12,7 @@ const Dashboard = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-
+  const api_url = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -20,9 +20,9 @@ const Dashboard = () => {
       return;
     }
 
-    authFetch("http://localhost:4000/api/user/me") // Asegúrate que el token se pasa con esta llamada
+    authFetch(`${api_url}/api/user/me`) // Asegúrate que el token se pasa con esta llamada
       .then((data) => {
-        setUserData(data);  // Datos del usuario devueltos por la API
+        setUserData(data); // Datos del usuario devueltos por la API
       })
       .catch((err) => {
         console.error("Error:", err);

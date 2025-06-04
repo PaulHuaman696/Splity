@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const ingresoSchema = new mongoose.Schema({
-  user: {
+  userId: {
     type: String, // UID de Firebase
     required: true,
   },
