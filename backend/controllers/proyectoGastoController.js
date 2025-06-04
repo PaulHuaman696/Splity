@@ -1,5 +1,5 @@
 const ProyectoGasto = require("../models/ProyectoGasto");
-const { nanoid } = require("nanoid");
+import { nanoid } from "nanoid";
 
 // Crear nuevo proyecto
 exports.createProyecto = async (req, res) => {

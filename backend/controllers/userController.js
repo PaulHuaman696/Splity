@@ -1,5 +1,5 @@
 const Usuario = require("../models/Usuario");
-const { nanoid } = require("nanoid");
+import { nanoid } from "nanoid";
 const ProyectoGasto = require("../models/ProyectoGasto");
 
 exports.createOrUpdateUser = async (req, res) => {
