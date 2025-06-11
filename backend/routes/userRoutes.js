@@ -7,6 +7,11 @@ const userController = require("../controllers/userController");
 router.post("/profile", verifyToken, userController.createOrUpdateUser);
 
 // Obtener información del usuario autenticado
-router.get('/me',verifyToken, userController.getMyUserData);;
+router.get('/me',verifyToken, userController.getMyUserData);
+
+router.post("/change-password", verifyToken, userController.changePassword);
+
+// Ruta para obtener los datos de un usuario por su UID
+router.get("/:uid", verifyToken, userController.getUserDataByUid);
 
 module.exports = router;

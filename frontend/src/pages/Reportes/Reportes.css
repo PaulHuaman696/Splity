@@ -7,14 +7,16 @@
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #1f2937; /* gris oscuro */
+  color: #1f2937;
+  /* gris oscuro */
 }
 
 /* Título principal */
 .reportes-title {
   font-size: 2.5rem;
   font-weight: 800;
-  color: #2563eb; /* azul */
+  color: #2563eb;
+  /* azul */
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -78,21 +80,39 @@
 }
 
 /* Para ajustar los componentes hijos (ResumenMensual, GastosPorProyecto, BalanceCompartido) */
-.reportes-seccion > * {
+.reportes-seccion>* {
   margin-top: 1rem;
 }
 
-/* Responsive: ajustar padding en pantallas pequeñas */
+
 @media (max-width: 640px) {
-  .reportes-container {
+
+  /* Ajustar padding general para más espacio */
+  /* .reportes-container {
     padding: 1rem 1rem;
-  }
+    margin: 1rem;
+  } */
 
+  /* Título un poco más pequeño */
   .reportes-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
   }
 
+  /* Selector de proyecto ocupa todo el ancho */
   .proyecto-select-container {
     max-width: 100%;
+    padding: 1rem;
+  }
+
+  /* Ajustar tamaño fuente y padding del select */
+  .proyecto-select-container select.input {
+    font-size: 0.95rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  /* Ajustar márgenes entre secciones para que no queden tan separados */
+  .reportes-seccion {
+    margin-bottom: 2rem;
   }
 }

@@ -34,7 +34,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,3 +46,97 @@
   border-radius: 8px;
   min-width: 300px;
 }
+
+/* Contenedor principal con padding más pequeño en móvil */
+@media (max-width: 600px) {
+  .proyectos-container {
+    padding: 10px;
+    margin: 10px;
+  }
+
+  /* Tabla se vuelve scrollable horizontal para no romper layout */
+  .proyectos-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    /* para mejor scroll en iOS */
+  }
+
+  /* Encabezados y celdas se alinean mejor */
+  .proyectos-table th,
+  .proyectos-table td {
+    padding: 8px 6px;
+    font-size: 14px;
+  }
+
+  /* Botones se apilan y ocupan 100% ancho */
+  .proyectos-button {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  /* Contenedor de botones: que apile verticalmente en móvil */
+  div[style*="margin-bottom: 1rem"] {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/*
+@media (max-width: 600px) {
+  .proyectos-table,
+  .proyectos-table thead,
+  .proyectos-table tbody,
+  .proyectos-table th,
+  .proyectos-table td,
+  .proyectos-table tr {
+    display: block;
+  }
+
+  .proyectos-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .proyectos-table tr {
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+  }
+
+  .proyectos-table td {
+    border: none;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  .proyectos-table td::before {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+
+  .proyectos-table td:nth-of-type(1)::before {
+    content: "Nombre";
+  }
+  .proyectos-table td:nth-of-type(2)::before {
+    content: "Código";
+  }
+  .proyectos-table td:nth-of-type(3)::before {
+    content: "Fecha";
+  }
+  .proyectos-table td:nth-of-type(4)::before {
+    content: "Participantes";
+  }
+  .proyectos-table td:nth-of-type(5)::before {
+    content: "Acciones";
+  }
+}
+
+*/

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ResumenMensual from "../../components/ResumenMensual/ResumenMensual";
 import GastosPorProyecto from "../../components/GastosPorProyecto/GastosPorProyecto";
-import BalanceCompartido from "../../components/BalanceCompartido";
+import BalanceCompartido from "../../components/BalanceCompartido/BalanceCompartido";
 import { authFetch } from "../../utils/authFetch";
 import "./Reportes.css";
 interface Proyecto {
@@ -32,7 +32,7 @@ const Reportes: React.FC = () => {
   }, []);
 
   return (
-    <div className="reportes-container">
+    <div >
       <h1 className="reportes-title">Reportes</h1>
 
       <section className="reportes-seccion">

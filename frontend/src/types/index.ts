@@ -2,6 +2,7 @@
 export interface Participante {
   uid: string;
   nombre: string;
+  email: string;
 }
 
 export interface GastoDetalle {

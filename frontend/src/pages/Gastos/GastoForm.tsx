@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CrearCategoriaModal from "../../components/CrearCategoriaModal/CrearCategoriaModal";
 import { authFetch } from "../../utils/authFetch";
-import CrearItemModal from "../../components/CrearItemModal";
+import CrearItemModal from "../../components/CrearItemModal/CrearItemModal";
 import "./GastoForm.css";
 
 const GastoForm = () => {
@@ -241,7 +241,7 @@ const GastoForm = () => {
         <div className="gasto-contenedor">
           <label className="gasto-label">
             Categoría:
-            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            <div className="contenedor-busqueda">
               <select
                 value={categoria}
                 onChange={(e) => setCategoria(e.target.value)}
@@ -264,7 +264,7 @@ const GastoForm = () => {
           </label>
           <label className="gasto-label">
             Ítem:
-            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            <div className="contenedor-busqueda">
               <input
                 type="text"
                 value={busquedaItem}

@@ -1,5 +1,6 @@
 // components/CrearCategoriaModal.tsx
 import React, { useState } from "react";
+import "./CrearCategoriaModal.css";
 
 interface Props {
   onClose: () => void;

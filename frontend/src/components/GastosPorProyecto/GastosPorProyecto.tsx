@@ -7,7 +7,7 @@ import {
   exportarPDF,
 } from "../../utils/gastosUtils";
 
-import type { GastosPorProyectoData } from "../../types";
+import type { GastosPorProyectoData, Participante } from "../../types";
 
 interface Props {
   proyectoId: string;
@@ -21,14 +21,29 @@ const GastosPorProyecto: React.FC<Props> = ({ proyectoId }) => {
     ""
   );
   const api_url = import.meta.env.VITE_API_URL;
+
+  // Estado para mapear UID a Participantes
+  const [participantesPorUid, setParticipantesPorUid] = useState<Record<string, Participante>>({});
+
   useEffect(() => {
     authFetch(`${api_url}/api/reportes/gastos/${proyectoId}`)
-      .then(setData)
+      .then(async (proyectoData) => {
+
+        // Mapeamos los participantes y los guardamos por su uid
+        const participantesMap: Record<string, Participante> = {};
+        proyectoData.participantes.forEach((participante: Participante) => {
+          participantesMap[participante.uid] = participante;
+        });
+        setParticipantesPorUid(participantesMap);
+
+        setData(proyectoData);
+      })
       .catch((err) => setError(err.message || "Error al cargar gastos"));
   }, [proyectoId]);
 
   if (error) return <p className="error-text">{error}</p>;
   if (!data) return <p>Cargando gastos del proyecto...</p>;
+
   const participantes = data.participantes || [];
 
   const detallesFiltrados = usuarioFiltro
@@ -111,8 +126,10 @@ const GastosPorProyecto: React.FC<Props> = ({ proyectoId }) => {
         <h3 className="subtotales-title">Subtotales por usuario</h3>
         <div className="subtotales-list">
           {Object.entries(subtotalesPorUsuario).map(([uid, total]) => {
-            const nombre =
-              participantes.find((p) => p.uid === uid)?.nombre || uid;
+            // Aseguramos que el participante existe en el mapa de participantesPorUid
+            const participante = participantesPorUid[uid];
+            const nombre = participante ? participante.nombre : uid;
+
             return (
               <div key={uid} className="subtotal-item">
                 <span className="subtotal-nombre">{nombre}</span>
@@ -147,9 +164,12 @@ const GastosPorProyecto: React.FC<Props> = ({ proyectoId }) => {
             </p>
             <p className="gasto-detail">
               <strong>Usuario:</strong>{" "}
-              {data.participantes.find((p) => p.uid === gasto.usuarioUid)
-                ?.nombre || gasto.usuarioUid}
+              {participantesPorUid[gasto.usuarioUid]?.nombre || gasto.usuarioUid}
             </p>
+            <div className="gasto-detail">
+              <strong>Email:</strong>{" "}
+              {participantesPorUid[gasto.usuarioUid]?.email || "Email no disponible"}
+            </div>
           </div>
         ))}
       </div>

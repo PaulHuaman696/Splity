@@ -12,7 +12,6 @@ export async function authFetch(url: string, options: RequestInit = {}) {
     ...options,
     headers,
   });
-
   if (!response.ok) {
     const error = await response.text();
     throw new Error(error);

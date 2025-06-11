@@ -45,3 +45,81 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+/* 📱 Responsividad */
+@media (max-width: 600px) {
+  .proyecto-container {
+    margin: 20px 16px;
+    padding: 20px;
+  }
+
+  .proyecto-title {
+    font-size: 20px;
+  }
+
+  .proyecto-submit {
+    font-size: 15px;
+    padding: 10px;
+  }
+}
+
+/*
+.proyecto-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 24px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.proyecto-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #1f2937;
+}
+
+.proyecto-label {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.proyecto-input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 6px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  outline-color: #4f46e5;
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+textarea.proyecto-input {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.proyecto-submit {
+  width: 100%;
+  background-color: #38b2ac;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.proyecto-submit:hover {
+  background-color: #319795;
+}
+*/

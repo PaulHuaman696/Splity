@@ -1,0 +1,256 @@
+/* BalanceCompartido.css - Estilos Mejorados y Responsivos */
+
+/* --- 1. Variables de Color y Estilos Base --- */
+:root {
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --bg-color: #f9fafb;
+  --surface-color: #ffffff;
+  --border-color: #e5e7eb;
+  --primary-text-color: #1f2937;
+  --secondary-text-color: #6b7280;
+  --accent-color: #3b82f6;
+  --success-bg: #dcfce7;
+  --success-text: #16a34a;
+  --error-bg: #fee2e2;
+  --error-text: #dc2626;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+body {
+  background-color: var(--bg-color);
+}
+
+/* --- 2. Contenedor Principal --- */
+.balance-container {
+  font-family: var(--font-family);
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow: var(--shadow);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 0.3s ease;
+}
+
+.balance-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary-text-color);
+  margin: 0 0 1.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* --- 3. Tarjetas de Resumen --- */
+.balance-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background-color: #f9fafb;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.summary-card-label {
+  font-size: 0.875rem;
+  color: var(--secondary-text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.summary-card-label svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+  color: var(--secondary-text-color);
+}
+
+.summary-card-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-text-color);
+}
+
+/* --- 4. Tabla de Saldos Mejorada --- */
+.balance-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.balance-table th,
+.balance-table td {
+  padding: 1rem;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.balance-table thead {
+  background-color: #f9fafb;
+}
+
+.balance-table thead th {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--secondary-text-color);
+  text-transform: uppercase;
+}
+
+.balance-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.balance-table tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
+  color: var(--primary-text-color);
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0; /* Evita que el avatar se encoja */
+}
+
+/* --- 5. "Pills" para Saldos --- */
+.saldo-pill {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.saldo-positivo {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+}
+
+.saldo-negativo {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+}
+
+/* --- 6. Mensajes de Carga y Error --- */
+.balance-info-text,
+.balance-error-text {
+  padding: 2rem;
+  text-align: center;
+  font-size: 1rem;
+  max-width: 700px;
+  margin: 2rem auto;
+  border-radius: 12px;
+}
+
+.balance-info-text {
+  color: var(--secondary-text-color);
+  font-style: italic;
+}
+
+.balance-error-text {
+  color: var(--error-text);
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-text);
+  font-weight: 500;
+}
+
+
+/******************************************/
+/* --- 7. RESPONSIVE DESIGN FOR MOBILE ---*/
+/******************************************/
+
+/* Se aplica en pantallas de 768px de ancho o menos */
+@media (max-width: 768px) {
+  .balance-container {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  .balance-title {
+    font-size: 1.5rem;
+  }
+  
+  .summary-card-value {
+    font-size: 1.25rem;
+  }
+
+  /* --- La magia para la tabla --- */
+
+  /* 1. Ocultamos el encabezado original de la tabla */
+  .balance-table thead {
+    display: none;
+  }
+
+  /* 2. Hacemos que cada fila se vea como una tarjeta */
+  .balance-table tr {
+    display: block;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  
+  .balance-table tr:last-child {
+    margin-bottom: 0;
+  }
+
+  /* 3. Las celdas se apilan y les damos el estilo de fila */
+  .balance-table td {
+    display: flex;
+    justify-content: space-between; /* Etiqueta a la izquierda, valor a la derecha */
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px dashed var(--border-color); /* Separador sutil entre "filas" */
+    text-align: right; /* Alineamos el contenido de la celda a la derecha */
+  }
+  
+  .balance-table td:last-child {
+    border-bottom: none; /* La última celda no necesita separador */
+  }
+
+  /* 4. Usamos el 'data-label' para crear la etiqueta de la columna */
+  .balance-table td::before {
+    content: attr(data-label); /* <- Aquí usamos el atributo que añadimos en el JSX */
+    font-weight: 600;
+    color: var(--primary-text-color);
+    text-align: left; /* La etiqueta se alinea a la izquierda */
+    margin-right: 1rem;
+  }
+  
+  /* Caso especial para la celda de usuario, que ya tiene un avatar */
+  .balance-table td.user-cell {
+    justify-content: flex-start; /* No necesita el space-between */
+  }
+  
+  .balance-table td.user-cell::before {
+    display: none; /* Ocultamos el "Usuario:" porque ya es obvio */
+  }
+}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./CrearItemModal.css";
 
 interface CrearItemModalProps {
   onClose: () => void;
@@ -52,7 +53,7 @@ const CrearItemModal: React.FC<CrearItemModalProps> = ({
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`${api_url}/api/items` , {
+      const response = await fetch(`${api_url}/api/items`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,27 +78,27 @@ const CrearItemModal: React.FC<CrearItemModalProps> = ({
   };
 
   return (
-    <div style={styles.modalOverlay}>
-      <div style={styles.modalContainer}>
-        <h3 style={styles.modalTitle}>Crear Nuevo Ítem</h3>
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <label style={styles.label}>
+    <div className="modal-overlay">
+      <div className="modal-container">
+        <h3 className="modal-title">Crear Nuevo Ítem</h3>
+        <form onSubmit={handleSubmit} className="form">
+          <label className="label">
             Nombre del ítem:
             <input
               type="text"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
-              style={styles.input}
+              className="input"
               required
             />
           </label>
 
-          <label style={styles.label}>
+          <label className="label">
             Categoría:
             <select
               value={categoriaId}
               onChange={(e) => setCategoriaId(e.target.value)}
-              style={styles.input}
+              className="input"
               required>
               <option value="">-- Selecciona una categoría --</option>
               {categorias.map((categoria) => (
@@ -108,11 +109,11 @@ const CrearItemModal: React.FC<CrearItemModalProps> = ({
             </select>
           </label>
 
-          <div style={styles.buttonsContainer}>
-            <button type="button" onClick={onClose} style={styles.cancelButton}>
+          <div className="buttons-container">
+            <button type="button" onClick={onClose} className="cancel-button">
               Cancelar
             </button>
-            <button type="submit" style={styles.submitButton}>
+            <button type="submit" className="submit-button">
               Crear Ítem
             </button>
           </div>
@@ -120,70 +121,6 @@ const CrearItemModal: React.FC<CrearItemModalProps> = ({
       </div>
     </div>
   );
-};
-
-const styles: { [key: string]: React.CSSProperties } = {
-  modalOverlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContainer: {
-    background: "#fff",
-    padding: "30px",
-    borderRadius: "12px",
-    width: "400px",
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-  },
-  modalTitle: {
-    fontSize: "20px",
-    marginBottom: "20px",
-    textAlign: "center",
-    color: "#333",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "16px",
-  },
-  label: {
-    fontWeight: "bold",
-    color: "#374151",
-    display: "flex",
-    flexDirection: "column",
-  },
-  input: {
-    padding: "10px",
-    borderRadius: "6px",
-    border: "1px solid #d1d5db",
-    fontSize: "16px",
-  },
-  buttonsContainer: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  cancelButton: {
-    padding: "10px 20px",
-    backgroundColor: "#e0e0e0",
-    color: "#333",
-    borderRadius: "6px",
-    border: "none",
-    cursor: "pointer",
-  },
-  submitButton: {
-    padding: "10px 20px",
-    backgroundColor: "#4f46e5",
-    color: "#fff",
-    borderRadius: "6px",
-    border: "none",
-    cursor: "pointer",
-  },
 };
 
 export default CrearItemModal;

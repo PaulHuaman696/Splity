@@ -19,4 +19,5 @@ const ingresoSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
+
 module.exports = mongoose.model("Ingreso", ingresoSchema);

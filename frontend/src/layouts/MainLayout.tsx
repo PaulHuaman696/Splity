@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/Sidebar/Sidebar";
 
 const styles: { [key: string]: React.CSSProperties } = {
   layout: {
@@ -22,12 +22,15 @@ const styles: { [key: string]: React.CSSProperties } = {
 };
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   return (
     <div style={styles.layout}>
-      <Navbar />
+      <Navbar toggleSidebar={toggleSidebar}/>
       <div style={styles.contentWrapper}>
-        <Sidebar />
-        <main style={styles.main}>
+        <Sidebar isOpen={sidebarOpen} closeSidebar={() => setSidebarOpen(false)}/>
+        <main style={styles.main} onClick={() => sidebarOpen && setSidebarOpen(false)}>
           {children}
         </main>
       </div>

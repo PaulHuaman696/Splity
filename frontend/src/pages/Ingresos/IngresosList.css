@@ -1,0 +1,61 @@
+/* src/pages/Ingresos/IngresosList.css */
+
+.ingresos-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.ingresos-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.ingresos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ingresos-th {
+  background-color: #f3f4f6;
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid #e5e7eb;
+  font-size: 16px;
+  color: #374151;
+}
+
+.ingresos-td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 15px;
+  color: #374151;
+}
+
+/* 📱 Responsividad */
+@media (max-width: 640px) {
+  .ingresos-container {
+    margin: 20px 10px;
+    padding: 16px;
+  }
+
+  .ingresos-title {
+    font-size: 20px;
+  }
+
+  .ingresos-th,
+  .ingresos-td {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .ingresos-table {
+    font-size: 14px;
+  }
+}

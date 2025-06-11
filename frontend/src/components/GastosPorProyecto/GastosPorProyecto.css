@@ -247,3 +247,58 @@
     transform: translateY(-50%) rotate(360deg);
   }
 }
+
+/* Ajustes generales para móviles (hasta 480px) */
+@media (max-width: 480px) {
+  .gastos-container {
+    padding: 1rem 1rem;
+    margin-top: 1rem;
+  }
+
+  /* El título más pequeño */
+  .gastos-title {
+    font-size: 1.5rem;
+  }
+
+  /* Select y botones ocupan todo el ancho */
+  #usuario-select,
+  .btn-export {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Los botones en columna */
+  .mt-4.flex {
+    flex-direction: column;
+  }
+
+  /* Gap vertical entre botones */
+  .mt-4.flex > button {
+    margin-bottom: 0.75rem;
+  }
+
+  /* Quitar margin bottom del último botón para evitar espacio extra */
+  .mt-4.flex > button:last-child {
+    margin-bottom: 0;
+  }
+
+  /* La cuadrícula de gastos pasa a una sola columna */
+  .gastos-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Subtotales también en columna */
+  .subtotales-list {
+    gap: 0.5rem;
+  }
+
+  /* Ajuste de padding en tarjetas para no verse tan grandes */
+  .gasto-card {
+    padding: 1rem;
+  }
+
+  button + button {
+    margin-left: 0rem;
+  }
+}

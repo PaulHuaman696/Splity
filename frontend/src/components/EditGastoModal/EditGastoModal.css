@@ -31,8 +31,10 @@
   border-radius: var(--border-radius);
   width: 100%;
   max-width: 600px;
-  max-height: 90vh;  /* Máxima altura del modal */
-  overflow: hidden;  /* Evita que todo el modal haga scroll */
+  max-height: 90vh;
+  /* Máxima altura del modal */
+  overflow: hidden;
+  /* Evita que todo el modal haga scroll */
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   transition: all var(--transition);
   display: flex;
@@ -42,7 +44,8 @@
 
 .form-group-row {
   display: flex;
-  gap: 16px;  /* Espacio entre los campos */
+  gap: 16px;
+  /* Espacio entre los campos */
   margin-bottom: 20px;
 }
 
@@ -56,16 +59,23 @@
   border-bottom: 2px solid var(--primary-color);
   padding-bottom: 10px;
   position: sticky;
-  top: 0;  /* Mantener el título en la parte superior */
-  background-color: white;  /* Asegura que el título no se vea transparente */
-  z-index: 1;  /* Asegura que el título esté por encima del contenido */
-  padding-top: 0;  /* Evita un margen extra encima del título */
+  top: 0;
+  /* Mantener el título en la parte superior */
+  background-color: white;
+  /* Asegura que el título no se vea transparente */
+  z-index: 1;
+  /* Asegura que el título esté por encima del contenido */
+  padding-top: 0;
+  /* Evita un margen extra encima del título */
 }
 
 .form-container {
-  flex: 1;  /* El contenido de la forma ocupará el resto del espacio */
-  overflow-y: auto;  /* Permite desplazamiento solo en el contenido del formulario */
-  padding-right: 16px;  /* Asegura que el scroll no se cubra con contenido */
+  flex: 1;
+  /* El contenido de la forma ocupará el resto del espacio */
+  overflow-y: auto;
+  /* Permite desplazamiento solo en el contenido del formulario */
+  padding-right: 16px;
+  /* Asegura que el scroll no se cubra con contenido */
 }
 
 .form-group {
@@ -108,7 +118,7 @@ select {
   font-size: var(--font-size);
 }
 
-.form-group-row > div {
+.form-group-row>div {
   flex: 1;
   min-width: 200px;
 }
@@ -162,3 +172,68 @@ select {
 .close-icon:hover {
   color: #e60000;
 }
+
+/* En móviles apilamos los grupos para que no queden muy apretados */
+@media (max-width: 480px) {
+  .form-group-row {
+    flex-direction: column;
+  }
+
+  .form-group-row>div {
+    min-width: 100%;
+    /* Que cada campo ocupe todo el ancho */
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .button {
+    width: 100%;
+    /* botones ocupan todo el ancho */
+  }
+
+  .modal {
+    padding: 16px 12px;
+  }
+}
+
+/* 
+.modal {
+  background-color: #ffffff;
+  padding: 24px 16px;
+  border-radius: var(--border-radius);
+  width: 90vw; 
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+  z-index: 10000;
+  -webkit-overflow-scrolling: touch;
+}
+
+.form-group-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap; 
+}
+.form-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 12px;
+  scrollbar-width: thin; 
+}
+
+.form-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.form-container::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 3px;
+} */

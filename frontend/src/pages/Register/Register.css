@@ -89,3 +89,47 @@
   text-decoration: none;
   font-weight: bold;
 }
+
+@media (max-width: 768px) {
+  .register-card {
+    flex-direction: column;
+    border-radius: 12px;
+  }
+
+  .register-left,
+  .register-right {
+    padding: 2rem 1.5rem;
+    flex: none;
+    width: 100%;
+  }
+
+  .register-left {
+    align-items: center;
+    text-align: center;
+  }
+
+  .register-brand {
+    font-size: 2rem;
+  }
+
+  .register-slogan {
+    font-size: 1rem;
+  }
+
+  .register-title {
+    font-size: 1.5rem;
+  }
+
+  .register-input {
+    font-size: 1rem;
+    padding: 0.65rem;
+  }
+
+  .register-button {
+    font-size: 1rem;
+  }
+
+  .register-login-text {
+    font-size: 0.9rem;
+  }
+}

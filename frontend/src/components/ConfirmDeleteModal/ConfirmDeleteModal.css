@@ -63,3 +63,31 @@
 .confirm-delete:hover {
   background-color: #b91c1c;
 }
+
+/* Para pantallas pequeñas */
+@media (max-width: 480px) {
+  .confirm-modal {
+    padding: 16px;
+    max-width: 90%;
+    width: auto;
+  }
+
+  .confirm-title {
+    font-size: 18px;
+  }
+
+  .confirm-message {
+    font-size: 14px;
+  }
+
+  .confirm-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .confirm-button {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 16px;
+  }
+}
