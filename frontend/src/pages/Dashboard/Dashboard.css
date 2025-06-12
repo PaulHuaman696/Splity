@@ -7,6 +7,21 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
+.dashboard-card,
+.chart-wrapper,
+canvas,
+svg {
+  max-width: 100%;
+  width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+canvas {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
 .dashboard-greeting {
   font-size: 2rem;
   font-weight: 700;
@@ -16,7 +31,6 @@
 
 .dashboard-grid {
   display: grid;
-  /* En escritorio, se ajusta automáticamente creando columnas de mínimo 300px */
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
 }
@@ -47,7 +61,20 @@
   padding-bottom: 0;
 }
 
+.dashboard-grid>h1.dashboard-section-title {
+  font-size: 1.5rem;
+  margin: 1.5rem 0 1rem;
+  grid-column: 1 / -1;
+}
+
+.dashboard-card.full-width-card {
+  grid-column: 1 / -1;
+}
+
 /* --- Estilos específicos para las tarjetas --- */
+.resumen-mensual-item {
+  gap: 20px;
+}
 
 .resumen-card .resumen-mensual-container {
   box-shadow: none;
@@ -56,12 +83,16 @@
   margin-top: 0;
 }
 
+.saldos-card-title {
+  flex-grow: 0;
+}
+
 .saldos-content {
   display: flex;
   justify-content: space-around;
   text-align: center;
   gap: 1rem;
-  margin-top: auto;
+  margin-top: 1rem;
 }
 
 .saldo-item {
@@ -80,14 +111,15 @@
 }
 
 .me-deben strong {
-  color: #16a34a; /* Verde */
+  color: #16a34a;
 }
 
 .yo-debo strong {
-  color: #dc2626; /* Rojo */
+  color: #dc2626;
 }
 
-.proyectos-list, .gastos-list {
+.proyectos-list,
+.gastos-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -107,9 +139,15 @@
   background-color: #eff6ff;
 }
 
+.gastos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .gastos-list li {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 1fr auto;
   gap: 1rem;
   align-items: center;
   padding: 0.75rem 0.5rem;
@@ -120,8 +158,15 @@
   border-bottom: none;
 }
 
+.gasto-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .gasto-item {
-  font-weight: 500;
+  font-weight: 600;
+  color: #1f2937;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -138,9 +183,11 @@
 .gasto-monto {
   font-weight: 600;
   text-align: right;
+  white-space: nowrap;
 }
 
-.error-text, .loading-text {
+.error-text,
+.loading-text {
   text-align: center;
   padding: 2rem;
   font-size: 1.2rem;
@@ -152,7 +199,7 @@
 }
 
 .dashboard-section-title {
-  grid-column: 1 / -1; 
+  grid-column: 1 / -1;
   font-size: 1.75rem;
   font-weight: 600;
   color: #1f2937;
@@ -171,7 +218,7 @@
 
 .chart-wrapper {
   position: relative;
-  height: 350px; /* Damos una altura fija para mejor control */
+  height: 350px;
   width: 100%;
   margin: auto;
 }
@@ -193,24 +240,20 @@
 /******************************************/
 
 @media (max-width: 768px) {
-  
   .dashboard-container {
-    /* Reducimos el padding en los lados para dar más espacio */
-    padding: 0rem;
+    padding: 1rem;
   }
 
   .dashboard-greeting {
-    font-size: 1.5rem; /* Hacemos el título principal más pequeño */
+    font-size: 1.5rem;
     margin-bottom: 1.5rem;
   }
 
-  /* Forzamos la rejilla a tener una sola columna */
   .dashboard-grid {
     grid-template-columns: 1fr;
-    gap: 1rem; /* Reducimos el espacio entre tarjetas */
+    gap: 1rem;
   }
 
-  /* Nos aseguramos que todas las tarjetas ocupen el ancho completo */
   .dashboard-card,
   .full-width-card {
     grid-column: auto;
@@ -226,11 +269,64 @@
   }
 
   .saldo-item strong {
-    font-size: 1.5rem; /* Reducimos el tamaño de los números grandes */
+    font-size: 1.5rem;
+  }
+
+  .gasto-por-categoria-container-grafico {
+    width: max-content;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .dashboard-card h2 {
+    font-size: 1.1rem;
+  }
+
+  .grafico-container {
+    height: max-content;
+  }
+
+  .resumen-mensual-item {
+    gap: 10px;
+  }
+
+  .dashboard-section-title {
+    font-size: 1.15rem;
+    margin-top: 1rem;
+  }
+
+  .gasto-item,
+  .gasto-proyecto,
+  .gasto-monto {
+    font-size: 0.9rem;
+  }
+
+  .gasto-monto {
+    text-align: left;
   }
 
   .chart-wrapper {
-    /* Reducimos la altura del gráfico en móvil */
-    height: 300px;
+    height: 250px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .gastos-list li {
+    /* Volvemos al layout de 3 columnas que tenías */
+    grid-template-columns: 2fr 1fr 1fr; 
+  }
+
+  .gasto-info {
+    /* Ya no necesitamos que sea una columna */
+    display: contents; /* Hace que el div no afecte el layout del grid */
+  }
+
+  .gasto-proyecto {
+    /* Le devolvemos su estilo de "etiqueta" */
+    background-color: #f3f4f6;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-align: center;
   }
 }

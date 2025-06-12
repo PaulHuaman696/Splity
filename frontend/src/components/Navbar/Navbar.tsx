@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase/firebaseConfig";
+import { auth } from "../../firebase/firebaseConfig";
 import "./Navbar.css";
 
 const Navbar = ({ toggleSidebar }: { toggleSidebar: () => void }) => {

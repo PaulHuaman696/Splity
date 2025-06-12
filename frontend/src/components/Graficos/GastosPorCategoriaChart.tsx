@@ -82,10 +82,7 @@ const GastosPorCategoriaChart = () => {
         plugins: {
             legend: {
                 position: 'bottom' as const,
-            },
-            title: {
-                display: false,
-            },
+            }
         },
     };
 
@@ -93,7 +90,7 @@ const GastosPorCategoriaChart = () => {
     if (chartData.labels.length === 0) return <p style={{ textAlign: 'center', color: 'gray', padding: '2rem' }}>Cargando gráfico...</p>;
 
     return (
-        <div className="chart-wrapper">
+        <div className="chart-wrapper gasto-por-categoria-container-grafico" style={{ paddingBottom: "1rem" }}>
             <Doughnut options={options} data={chartData} />
         </div>
     );

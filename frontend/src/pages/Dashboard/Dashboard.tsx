@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { authFetch } from "../utils/authFetch";
-import ResumenMensual from "../components/ResumenMensual/ResumenMensual";
-import GastosPorCategoriaChart from '../components/Graficos/GastosPorCategoriaChart';
-import HistorialMensualChart from '../components/Graficos/HistorialMensualChart';
-import TendenciaDiariaChart from '../components/Graficos/TendenciaDiariaChart';
-import TopGastosChart from '../components/Graficos/TopGastosChart';
+import { authFetch } from "../../utils/authFetch";
+import ResumenMensual from "../../components/ResumenMensual/ResumenMensual";
+import GastosPorCategoriaChart from '../../components/Graficos/GastosPorCategoriaChart';
+import HistorialMensualChart from '../../components/Graficos/HistorialMensualChart';
+import TendenciaDiariaChart from '../../components/Graficos/TendenciaDiariaChart';
+import TopGastosChart from '../../components/Graficos/TopGastosChart';
 import "./Dashboard.css";
 
 // Definimos los tipos de datos que vamos a recibir
@@ -73,7 +73,7 @@ const Dashboard = () => {
         </div>
 
         <div className="dashboard-card saldos-card">
-          <h2>Mis Saldos Globales</h2>
+          <h2 className="saldos-card-title">Mis Saldos Globales</h2>
           {saldosGlobales ? (
             <div className="saldos-content">
               <div className="saldo-item me-deben">
@@ -90,7 +90,7 @@ const Dashboard = () => {
 
         {/* --- Sección de Proyectos y Gastos --- */}
         <div className="dashboard-card proyectos-card">
-          <h2>Mis Proyectos</h2>
+          <h2 className="saldos-card-title">Mis Proyectos</h2>
           <ul className="proyectos-list">
             {proyectos.length > 0 ? proyectos.map(p => (
               <li key={p._id}>
@@ -100,13 +100,16 @@ const Dashboard = () => {
             )) : <p>No participas en ningún proyecto.</p>}
           </ul>
         </div>
+
         <div className="dashboard-card gastos-recientes-card">
           <h2>Gastos Recientes</h2>
           <ul className="gastos-list">
             {gastosRecientes.length > 0 ? gastosRecientes.map(g => (
               <li key={g._id}>
-                <span className="gasto-item">{g.item || 'Gasto general'}</span>
-                <span className="gasto-proyecto">{g.proyectoId?.nombre || 'N/A'}</span>
+                <div className="gasto-info">
+                  <span className="gasto-item">{g.item || 'Gasto general'}</span>
+                  <span className="gasto-proyecto">{g.proyectoId?.nombre || 'N/A'}</span>
+                </div>
                 <span className="gasto-monto">S/.{g.monto.toFixed(2)}</span>
               </li>
             )) : <p>No tienes gastos recientes.</p>}
@@ -116,18 +119,20 @@ const Dashboard = () => {
         {/* --- TÍTULO DE LA NUEVA SECCIÓN --- */}
         {/* Este h2 ocupará todo el ancho de la rejilla */}
         <h1 className="dashboard-section-title">Análisis Gráfico</h1>
-        
+
         {/* --- TARJETA DEL GRÁFICO --- */}
         {/* Usamos una clase especial para que ocupe todo el ancho */}
         <div className="dashboard-card full-width-card">
           <h2>Tendencia de Gastos (Últimos 30 días)</h2>
           <TendenciaDiariaChart />
         </div>
-        
+
         {/* Esta tarjeta se posicionará correctamente debajo del nuevo título */}
         <div className="dashboard-card chart-card">
           <h2>Distribución de Gastos por Categoría</h2>
-          <GastosPorCategoriaChart />
+          <div className="grafico-container">
+            <GastosPorCategoriaChart />
+          </div>
         </div>
 
         {/* --- 2. AÑADE LA NUEVA TARJETA PARA EL GRÁFICO DE BARRAS --- */}
@@ -137,7 +142,7 @@ const Dashboard = () => {
         </div>
 
         <div className="dashboard-card top-gastos-card">
-          <h2>Top 5 Gastos del Mes</h2>
+          <h2 className="saldos-card-title">Top 5 Gastos del Mes</h2>
           <TopGastosChart />
         </div>
       </div>

@@ -1,6 +1,6 @@
 // src/routes/AppRoutes.tsx
 import { Routes, Route, Navigate } from "react-router-dom";
-import Dashboard from "../pages/Dashboard";
+import Dashboard from "../pages/Dashboard/Dashboard";
 import GastosList from "../pages/Gastos/GastosList";
 import GastoForm from "../pages/Gastos/GastoForm";
 import IngresosList from "../pages/Ingresos/IngresosList";
