@@ -167,3 +167,17 @@ exports.getUserDataByUid = async (req, res) => {
     res.status(500).json({ message: "Error al obtener los datos del usuario" });
   }
 };
+
+exports.getAllUsers = async (req, res) => {
+    try {
+        // Buscamos a todos los usuarios EXCEPTO al que está haciendo la petición
+        const users = await Usuario.find(
+            { uid: { $ne: req.user.uid } },
+            'uid name email' // Seleccionamos solo los campos necesarios
+        ).lean(); 
+        
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ mensaje: 'Error al obtener la lista de usuarios.' });
+    }
+};

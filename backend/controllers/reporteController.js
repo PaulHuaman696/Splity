@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Gasto = require("../models/Gasto");
 const Ingreso = require("../models/Ingreso"); // Asegúrate que existe este modelo
 const Proyecto = require("../models/ProyectoGasto");
+const Pago = require('../models/Pago');
 
 // 1. Listar ingresos y gastos mensuales + suma total
 const getIngresosGastosMensuales = async (req, res) => {
@@ -128,8 +129,6 @@ const getGastosPorProyecto = async (req, res) => {
 const getBalanceCompartidoPorProyecto = async (req, res) => {
   const proyectoIdStr = req.params.proyectoId;
   let proyectoId;
-
-  // 1. (CORRECCIÓN) Convertir el string a ObjectId
   try {
     proyectoId = new mongoose.Types.ObjectId(proyectoIdStr);
   } catch (error) {
@@ -137,56 +136,57 @@ const getBalanceCompartidoPorProyecto = async (req, res) => {
   }
 
   try {
-    // 2. (MEJORA) Obtener los datos del proyecto para acceder a los participantes
     const proyecto = await Proyecto.findById(proyectoId).lean();
-    if (!proyecto) {
-      return res.status(404).json({ mensaje: "Proyecto no encontrado" });
+    if (!proyecto || !proyecto.participantes || proyecto.participantes.length === 0) {
+      return res.status(404).json({ mensaje: "Proyecto o participantes no encontrados." });
     }
 
-    // Crear un mapa de participantes para un acceso fácil (uid -> nombre)
-    const participantesMap = new Map(
-      proyecto.participantes.map(p => [p.uid, p.nombre])
-    );
-
-    const gastosCompartidos = await Gasto.aggregate([
-      // Ahora el $match funcionará
-      { $match: { proyectoId, tipo: "compartido" } },
-      {
-        $group: {
-          _id: "$usuarioUid",
-          totalAporte: { $sum: "$monto" },
-        },
-      },
+    // 1. Calcular el total y promedio de gastos compartidos
+    const gastosAgregados = await Gasto.aggregate([
+      { $match: { proyectoId: proyectoId, tipo: "compartido" } },
+      { $group: { _id: "$usuarioUid", totalAporte: { $sum: "$monto" } } }
     ]);
+    const sumaTotalGastos = gastosAgregados.reduce((acc, cur) => acc + cur.totalAporte, 0);
+    const promedioGasto = sumaTotalGastos / proyecto.participantes.length;
 
-    if (gastosCompartidos.length === 0) {
-      return res
-        .status(404)
-        .json({ mensaje: "No hay gastos de tipo 'compartido' para este proyecto" });
-    }
+    // 2. Obtener todos los pagos CONFIRMADOS de este proyecto
+    const pagosConfirmados = await Pago.find({ proyecto: proyectoId, estado: 'confirmado' }).lean();
 
-    const sumaTotal = gastosCompartidos.reduce((acc, cur) => acc + cur.totalAporte, 0);
-    const promedio = sumaTotal / participantesMap.size; // Usar el número total de participantes del proyecto para el promedio
+    // 3. Calcular el balance final para cada participante
+    const saldos = proyecto.participantes.map(participante => {
+      const uid = participante.uid;
+      const aporte = gastosAgregados.find(g => g._id === uid)?.totalAporte || 0;
+      
+      // Sumar los pagos que este usuario ha HECHO a otros
+      const totalPagosHechos = pagosConfirmados
+        .filter(p => p.de_usuario === uid)
+        .reduce((acc, p) => acc + p.monto, 0);
+        
+      // Sumar los pagos que este usuario ha RECIBIDO de otros
+      const totalPagosRecibidos = pagosConfirmados
+        .filter(p => p.a_usuario === uid)
+        .reduce((acc, p) => acc + p.monto, 0);
 
-    // 3. (MEJORA) Enriquecer los saldos con el nombre del usuario
-    const saldos = gastosCompartidos.map((gasto) => ({
-      usuarioUid: gasto._id,
-      nombre: participantesMap.get(gasto._id) || "Usuario desconocido", // Añadimos el nombre
-      totalAporte: gasto.totalAporte,
-      saldo: parseFloat((gasto.totalAporte - promedio).toFixed(2)),
-    }));
+      // El saldo ahora es: (lo que puse - el promedio) + (lo que me pagaron) - (lo que yo pagué)
+      const saldoFinal = (aporte - promedioGasto) + totalPagosRecibidos - totalPagosHechos;
+      
+      return {
+        usuarioUid: uid,
+        nombre: participante.nombre,
+        totalAporte: aporte,
+        saldo: parseFloat(saldoFinal.toFixed(2)),
+      };
+    });
 
     res.json({
-      promedio,
-      sumaTotal,
-      participantes: participantesMap.size,
-      saldos, // Los saldos ahora incluyen el nombre
+      promedio: promedioGasto,
+      sumaTotal: sumaTotalGastos,
+      participantes: proyecto.participantes.length,
+      saldos,
     });
   } catch (error) {
-    console.error("Error calculando balance compartido", error);
-    res
-      .status(500)
-      .json({ mensaje: "Error calculando balance compartido", error });
+    console.error("Error calculando balance compartido:", error);
+    res.status(500).json({ mensaje: "Error calculando balance", error: error.message });
   }
 };
 

@@ -10,8 +10,9 @@ router.post("/profile", verifyToken, userController.createOrUpdateUser);
 router.get('/me',verifyToken, userController.getMyUserData);
 
 router.post("/change-password", verifyToken, userController.changePassword);
-
+router.get('/all', verifyToken, userController.getAllUsers);
 // Ruta para obtener los datos de un usuario por su UID
 router.get("/:uid", verifyToken, userController.getUserDataByUid);
+
 
 module.exports = router;

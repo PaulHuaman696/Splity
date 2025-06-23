@@ -14,6 +14,8 @@ const connectDB = require('./config/db');
 const invitacionRoutes = require("./routes/invitacionRoutes");
 const admin = require('./config/firebaseAdminConfig');
 const reporteRoutes = require("./routes/reporteRoutes");
+const pagoRoutes = require('./routes/pagoRoutes');
+const prestamoRoutes = require('./routes/prestamoRoutes');
 
 const app = express();
 app.use(cors());
@@ -36,6 +38,8 @@ app.use("/api/categories", categoriaRoutes);
 app.use("/api/items", itemRoutes);
 app.use("/api/invitaciones", invitacionRoutes);
 app.use("/api/reportes", reporteRoutes);
+app.use('/api/pagos', pagoRoutes);
+app.use('/api/prestamos', prestamoRoutes);
 
 const PORT = process.env.PORT || 4000;
 const IP = process.env.IP;

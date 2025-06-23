@@ -1,14 +1,18 @@
 const ProyectoGasto = require("../models/ProyectoGasto");
 const Usuario = require("../models/Usuario");
+const Gasto = require('../models/Gasto');
+const Pago = require('../models/Pago');
+const Invitacion = require('../models/Invitacion');
 const { nanoid } = require("nanoid");
 
 // Crear nuevo proyecto
 exports.createProyecto = async (req, res) => {
   try {
     const { nombre, descripcion, participantes = [] } = req.body;
-    const uid = req.user.uid;
-    const nombreUsuario = req.user.nombre || req.user.email || "Anónimo";
-    const emailUsuario = req.user.email || "Anónimo"; // Obtenemos el email del usuario
+    const creador = req.user;
+    
+    const nombreUsuario = creador.name || creador.email || "Anónimo";
+    const emailUsuario = creador.email || "No disponible";
 
     const codigoUnico = nanoid(8); // genera un código único de 8 caracteres
 
@@ -17,15 +21,15 @@ exports.createProyecto = async (req, res) => {
       descripcion,
       codigoUnico,
       creadoPor: {
-        uid,
+        uid: creador.uid,
         nombre: nombreUsuario,
         email: emailUsuario,
       },
       participantes: [
         {
-          uid,
-          nombre,
-          email,
+          uid: creador.uid,
+          nombre: nombreUsuario,
+          email: emailUsuario,
           aceptado: true,
         },
         ...participantes.map((p) => ({
@@ -69,9 +73,9 @@ exports.getProyectosByUser = async (req, res) => {
 
             // Asegúrate de que el usuario tenga datos
             return {
-              ...participante,
-              nombre: usuario?.name || "Anónimo",
-              email: usuario?.email || "No disponible",
+              ...participante.toObject(),
+              nombre: usuario?.name || participante.nombre || "Anónimo",
+              email: usuario?.email || participante.email || "No disponible",
             };
           })
         );
@@ -119,24 +123,32 @@ exports.joinProyectoByCodigo = async (req, res) => {
 exports.deleteProyecto = async (req, res) => {
   try {
     const { id } = req.params;
-    const uid = req.user.uid;
+    const { uid } = req.user;
 
     const proyecto = await ProyectoGasto.findById(id);
-
     if (!proyecto) {
       return res.status(404).json({ mensaje: "Proyecto no encontrado" });
     }
-
     if (proyecto.creadoPor.uid !== uid) {
-      return res
-        .status(403)
-        .json({ mensaje: "No estás autorizado para eliminar este proyecto" });
+      return res.status(403).json({ mensaje: "No estás autorizado para eliminar este proyecto" });
     }
 
+    // --- BORRADO EN CASCADA ---
+    // 1. Eliminar todos los gastos asociados
+    await Gasto.deleteMany({ proyectoId: id });
+    // 2. Eliminar todos los pagos asociados
+    await Pago.deleteMany({ proyecto: id });
+    // 3. Eliminar todas las invitaciones asociadas
+    await Invitacion.deleteMany({ proyectoId: id });
+    
+    // 4. Finalmente, eliminar el proyecto en sí
     await ProyectoGasto.findByIdAndDelete(id);
-    res.status(200).json({ mensaje: "Proyecto eliminado correctamente" });
+    
+    res.status(200).json({ mensaje: "Proyecto y todos sus datos asociados han sido eliminados." });
+
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al eliminar proyecto", error });
+    console.error("Error al eliminar proyecto:", error);
+    res.status(500).json({ mensaje: "Error al eliminar el proyecto.", error: error.message });
   }
 };
 
