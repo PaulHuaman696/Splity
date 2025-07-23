@@ -11,7 +11,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:4000/api', // Ajusta al entorno de despliegue
+        url: 'https://api-movigo.space/api', // Ajusta al entorno de despliegue
       },
     ],
     components: {

@@ -5,3 +5,5 @@
 /backend/.env
 /frontend/.env
 /frontend/src/firebase
+/backend/package-lock.json
+/frontend/package-lock.json
