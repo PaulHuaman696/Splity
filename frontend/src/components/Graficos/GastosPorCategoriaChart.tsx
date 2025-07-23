@@ -11,87 +11,87 @@ interface CategoriaData {
     total: number;
 }
 
-// --- 1. DEFINIMOS LOS TIPOS PARA EL ESTADO DEL GRÁFICO ---
-interface ChartDataset {
-    label: string;
-    data: number[];
-    backgroundColor: string[];
-    borderColor: string[];
-    borderWidth: number;
-}
 
-interface ChartDataState {
-    labels: string[];
-    datasets: ChartDataset[];
-}
-// --- FIN DE LA DEFINICIÓN DE TIPOS ---
 
 
 const GastosPorCategoriaChart = () => {
-    const [chartData, setChartData] = useState<ChartDataState>({
-        labels: [],
-        datasets: [],
-    });
+    // Estado para los datos que vienen de la API
+    const [apiData, setApiData] = useState<CategoriaData[]>([]);
+    const [chartData, setChartData] = useState<any>({ datasets: [] });
+    const [chartOptions, setChartOptions] = useState<any>({});
     const [error, setError] = useState('');
     const api_url = import.meta.env.VITE_API_URL;
 
+    // useEffect para buscar los datos iniciales
     useEffect(() => {
         authFetch(`${api_url}/api/reportes/gastos-por-categoria`)
-            .then((data: CategoriaData[]) => {
+            .then((data) => {
                 if (data.length === 0) {
-                    setError('No hay datos de gastos para mostrar en el gráfico.');
+                    setError('No hay datos de gastos para mostrar.');
                     return;
                 }
-
-                const labels = data.map(d => d.categoria);
-                const totals = data.map(d => d.total);
-
-                setChartData({
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'Gastos por Categoría',
-                            data: totals,
-                            backgroundColor: [ // Puedes añadir más colores
-                                'rgba(255, 99, 132, 0.7)',
-                                'rgba(54, 162, 235, 0.7)',
-                                'rgba(255, 206, 86, 0.7)',
-                                'rgba(75, 192, 192, 0.7)',
-                                'rgba(153, 102, 255, 0.7)',
-                                'rgba(255, 159, 64, 0.7)',
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)',
-                            ],
-                            borderWidth: 1,
-                        },
-                    ],
-                });
+                setApiData(data);
             })
             .catch(() => setError('No se pudo cargar el gráfico de gastos.'));
     }, [api_url]);
 
-    const options = {
-        responsive: true,
-        cutout: '60%',
-        plugins: {
-            legend: {
-                position: 'bottom' as const,
-            }
-        },
-    };
+    // useEffect para CONSTRUIR el gráfico cuando los datos o el tema cambien
+    useEffect(() => {
+        // Leemos las variables de color directamente del CSS
+        const textColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-text-color').trim();
+        const colors = [
+            getComputedStyle(document.documentElement).getPropertyValue('--chart-color-1').trim(),
+            getComputedStyle(document.documentElement).getPropertyValue('--chart-color-2').trim(),
+            getComputedStyle(document.documentElement).getPropertyValue('--chart-color-3').trim(),
+            getComputedStyle(document.documentElement).getPropertyValue('--chart-color-4').trim(),
+            getComputedStyle(document.documentElement).getPropertyValue('--chart-color-5').trim(),
+            getComputedStyle(document.documentElement).getPropertyValue('--chart-color-6').trim(),
+        ];
 
-    if (error) return <p style={{ textAlign: 'center', color: 'gray', padding: '2rem' }}>{error}</p>;
-    if (chartData.labels.length === 0) return <p style={{ textAlign: 'center', color: 'gray', padding: '2rem' }}>Cargando gráfico...</p>;
+        // Configuramos las opciones del gráfico con los colores del tema
+        setChartOptions({
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom' as const,
+                    labels: {
+                        color: textColor, // Usamos el color del tema
+                        font: { size: 12 }
+                    }
+                },
+                title: {
+                    display: false, // El título lo manejamos en el Dashboard
+                },
+            },
+        });
+
+        // Formateamos los datos del gráfico con los colores del tema
+        if (apiData.length > 0) {
+            setChartData({
+                labels: apiData.map(d => d.categoria),
+                datasets: [
+                    {
+                        label: 'Gastos por Categoría',
+                        data: apiData.map(d => d.total),
+                        backgroundColor: colors,
+                        borderColor: getComputedStyle(document.documentElement).getPropertyValue('--surface-color').trim(),
+                        borderWidth: 1.5,
+                    },
+                ],
+            });
+        }
+
+    }, [apiData]); // Este efecto se re-ejecuta si los datos de la API cambian
+
+    
+
+    if (error) return <p className="chart-message">{error}</p>;
+    if (apiData.length === 0 && !error) return <p className="chart-message">Cargando gráfico...</p>;
 
     return (
-        <div className="chart-wrapper gasto-por-categoria-container-grafico" style={{ paddingBottom: "1rem" }}>
-            <Doughnut options={options} data={chartData} />
+        <div className="chart-wrapper">
+            <Doughnut options={chartOptions} data={chartData} />
         </div>
     );
 };

@@ -1,0 +1,131 @@
+/* --- Estilos para el Modal de Invitar Participantes --- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-content-invite {
+  background: var(--surface-color, #fff);
+  padding: 1.5rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  border: 1px solid var(--border-color, #e5e7eb);
+  animation: slideIn 0.3s ease-out;
+}
+
+
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  color: var(--text-primary, #1f2937);
+  text-align: center;
+}
+
+.modal-title-project {
+  color: var(--primary-color, #4f46e5);
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.modal-label {
+  display: inline-flex; /* Permite alinear el ícono y el texto en una línea */
+  align-items: center;
+  gap: 0.5rem; /* Espacio entre el ícono y el texto */
+  font-size: 0.9rem;
+  font-weight: 600; /* Un poco más de énfasis */
+  color: var(--text-secondary, #374151);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase; /* Estilo de etiqueta común y profesional */
+  letter-spacing: 0.05em; /* Un toque de espaciado para pulir */
+}
+
+/* Estilos para el ícono SVG dentro de la etiqueta */
+.modal-label svg {
+  width: 1rem;  /* 16px */
+  height: 1rem; /* 16px */
+}
+
+.modal-input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #d1d5db);
+  background-color: var(--bg-input, #f9fafb);
+  color: var(--text-primary, #111827);
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: var(--border-focus-color, #4f46e5);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.modal-actions button {
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary-color, #4f46e5);
+  color: var(--text-on-primary, #fff);
+}
+.btn-primary:hover {
+  background-color: var(--primary-color-hover, #4338ca);
+}
+
+.btn-secondary {
+  background-color: var(--bg-neutral, #e5e7eb);
+  color: var(--text-secondary, #374151);
+}
+.btn-secondary:hover {
+  background-color: var(--bg-neutral-hover, #d1d5db);
+}
+
+
+/* --- Animaciones y Responsividad --- */
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+@media (max-width: 480px) {
+  .modal-actions {
+    flex-direction: column-reverse; /* Botón primario abajo, más accesible */
+    gap: 0.5rem;
+  }
+  .modal-actions button {
+    width: 100%;
+  }
+}

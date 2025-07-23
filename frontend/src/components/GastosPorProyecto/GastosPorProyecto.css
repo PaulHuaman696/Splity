@@ -1,47 +1,40 @@
 /* Estilos generales para el contenedor */
+/* --- 1. Paleta de Colores y Variables (Tema Claro por Defecto) --- */
+:root {
+  --surface-color: #ffffff;
+  --surface-muted-color: #f9fafb;
+  --border-color: #e5e7eb;
+  --border-input-color: #d1d5db;
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-tertiary: #4b5563;
+  --text-on-primary: #ffffff;
+  --primary-color: #2563eb;
+  --primary-color-hover: #1d4ed8;
+  --success-color: #16a34a;
+  --danger-color: #f87171;
+  --shadow-light: 0 2px 6px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.1);
+  --shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
 .gastos-container {
   padding: 1.5rem;
   border-radius: 8px;
-  background-color: #ffffff;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  background-color: var(--surface-color);
+  box-shadow: var(--shadow-heavy);
   margin-top: 1.5rem;
 }
 
-.mb-4 {
-  margin-bottom: 1.5rem;
-}
-
-.mt-4 {
-  margin-top: 1.5rem;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex-wrap {
-  flex-wrap: wrap;
-}
-
-.gap-2 {
-  gap: 0.5rem;
-}
-
-.block {
-  display: block;
-}
-
-.font-semibold {
-  font-weight: 600;
-}
-
-.max-w-xs {
-  max-width: 20rem;
-}
-
-.w-full {
-  width: 100%;
-}
+.mb-4 { margin-bottom: 1.5rem; }
+.mt-4 { margin-top: 1.5rem; }
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+.gap-2 { gap: 0.5rem; }
+.block { display: block; }
+.font-semibold { font-weight: 600; }
+.max-w-xs { max-width: 20rem; }
+.w-full { width: 100%; }
 
 .btn-export {
   background-color: #2563eb;
@@ -61,22 +54,26 @@
 .gastos-title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-primary);
 }
 
 .total-gasto {
   font-size: 1.125rem;
   font-weight: 600;
   margin: 2rem 0 1rem;
-  color: #374151;
+  color: var(--text-secondary);
+}
+.total-gasto-value {
+  color: var(--success-color);
 }
 
+/* --- Subtotales --- */
 .subtotales-usuarios {
   margin-top: 2rem;
   margin-bottom: 2rem;
   padding: 1rem;
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
+  background-color: var(--surface-muted-color);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
 }
 
@@ -84,9 +81,8 @@
   font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #374151;
+  color: var(--text-secondary);
 }
-
 .subtotales-list {
   display: flex;
   flex-direction: column;
@@ -96,48 +92,36 @@
 .subtotal-item {
   display: flex;
   justify-content: space-between;
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.5rem 0.75rem;
   font-size: 1rem;
-  color: #374151;
+  color: var(--text-secondary);
   transition: background-color 0.2s ease;
 }
-
 .subtotal-item:hover {
-  background-color: #f3f4f6;
+  background-color: var(--surface-muted-color);
 }
 
-.subtotal-nombre {
-  font-weight: 500;
-}
+.subtotal-nombre { font-weight: 500; }
+.subtotal-monto { font-weight: 600; color: var(--success-color); }
 
-.subtotal-monto {
-  font-weight: 600;
-  color: #16a34a;
-}
-
-.total-gasto-value {
-  color: #16a34a;
-  /* Color verde */
-}
-
+/* --- Inputs y Selects --- */
 .input {
   padding: 0.5rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border-input-color);
   border-radius: 0.375rem;
   font-size: 1rem;
 }
 
 #usuario-select {
-  background-color: #f9fafb;
-  color: #111827;
+  background-color: var(--surface-muted-color);
+  color: var(--text-primary);
 }
-
 .input:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
@@ -145,24 +129,21 @@
 .gastos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  /* Responsivo */
   gap: 1.5rem;
 }
 
 /* Estilos para cada tarjeta de gasto */
 .gasto-card {
-  background-color: #ffffff;
+  background-color: var(--surface-color);
   border-radius: 10px;
   padding: 1.25rem;
-  border: 1px solid #e5e7eb;
-  /* Borde gris claro */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  /* Sombra sutil */
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-light);
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .gasto-card:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-medium);
   transform: translateY(-2px);
 }
 
@@ -170,30 +151,25 @@
 .gasto-item {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #2563eb;
-  /* Azul claro */
+  color: var(--primary-color);
   margin-bottom: 0.5rem;
 }
 
 /* Detalles del gasto */
 .gasto-detail {
   font-size: 0.95rem;
-  color: #4b5563;
-  /* Gris más oscuro */
+  color: var(--text-tertiary);
   margin-bottom: 0.4rem;
   line-height: 1.4;
 }
-
 .gasto-detail strong {
   font-weight: 600;
-  color: #111827;
-  /* Texto destacado */
+  color: var(--text-primary);
 }
 
 /* Estilo para los errores */
 .error-text {
-  color: #f87171;
-  /* Rojo */
+  color: var(--danger-color);
   font-size: 1rem;
   font-weight: 600;
 }
@@ -220,8 +196,8 @@
 }
 
 .btn-export {
-  background-color: #2563eb;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--text-on-primary);
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   font-size: 0.875rem;
@@ -233,7 +209,7 @@
 }
 
 .btn-export:hover {
-  background-color: #1d4ed8;
+  background-color: var(--primary-color-hover);
   transform: translateY(-1px);
 }
 
@@ -300,5 +276,47 @@
 
   button + button {
     margin-left: 0rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-color: #1e293b;
+    --surface-muted-color: #0f172a;
+    --border-color: #334155;
+    --border-input-color: #475569;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    --text-on-primary: #ffffff;
+    --primary-color: #5856d6;
+    --primary-color-hover: #4338ca;
+    --success-color: #4ade80;
+    --danger-color: #f87171;
+    --shadow-light: 0 2px 6px rgba(0, 0, 0, 0.2);
+    --shadow-medium: 0 6px 12px rgba(0, 0, 0, 0.3);
+    --shadow-heavy: 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+  
+  #usuario-select {
+    /* Los selects a veces necesitan un poco de ayuda extra en modo oscuro */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 2.5rem;
+  }
+
+  .input:focus {
+    box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.25);
+  }
+
+  /* El spinner del botón 'Exportar' necesita un borde claro */
+  .btn-export[disabled]::after {
+    border-color: #ffffff;
+    border-top-color: transparent;
   }
 }

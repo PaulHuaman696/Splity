@@ -11,49 +11,77 @@ export default function IngresoForm() {
     const today = new Date();
     return today.toISOString().split("T")[0]; // formato YYYY-MM-DD
   });
+  const [cargando, setCargando] = useState(false);
   const navigate = useNavigate();
   const api_url = import.meta.env.VITE_API_URL;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setCargando(true);
     try {
       await authFetch(`${api_url}/api/income`, {
         method: "POST",
         body: JSON.stringify({ monto: parseFloat(monto), descripcion, fecha }),
       });
-      navigate("/ingresos");
+      alert("Ingreso guardado correctamente");
+      navigate("/ingresos/lista");
     } catch (err) {
       console.error("Error al crear ingreso:", err);
       alert("No se pudo guardar el ingreso.");
+    } finally {
+      setCargando(false);
     }
   };
 
   return (
-    <div className="ingreso-container">
-      <h2 className="ingreso-title">Registrar Ingreso</h2>
-      <form onSubmit={handleSubmit} className="ingreso-form">
-        <input
-          type="number"
-          placeholder="Monto"
-          value={monto}
-          onChange={(e) => setMonto(e.target.value)}
-          required
-          className="ingreso-input"
-        />
-        <input
-          type="text"
-          placeholder="Descripción"
-          value={descripcion}
-          onChange={(e) => setDescripcion(e.target.value)}
-          className="ingreso-input"
-        />
-        <input
-          type="date"
-          value={fecha}
-          onChange={(e) => setFecha(e.target.value)}
-          className="ingreso-input"
-        />
-        <button type="submit" className="ingreso-button">
-          Guardar Ingreso
+    <div className="form-page-container">
+      <form onSubmit={handleSubmit} className="ingreso-form-card">
+        <h2 className="form-title">Registrar Ingreso</h2>
+        
+        {/* Grupo para el Monto */}
+        <div className="form-group">
+          <label htmlFor="monto-ingreso">Monto (S/.)</label>
+          <input
+            id="monto-ingreso"
+            type="number"
+            className="form-input"
+            placeholder="Ej: 500.00"
+            value={monto}
+            onChange={(e) => setMonto(e.target.value)}
+            required
+            step="0.01"
+          />
+        </div>
+
+        {/* Grupo para la Descripción */}
+        <div className="form-group">
+          <label htmlFor="descripcion-ingreso">Descripción</label>
+          <input
+            id="descripcion-ingreso"
+            type="text"
+            className="form-input"
+            placeholder="Ej: Salario, Venta, etc."
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
+            required
+          />
+        </div>
+
+        {/* Grupo para la Fecha */}
+        <div className="form-group">
+          <label htmlFor="fecha-ingreso">Fecha</label>
+          <input
+            id="fecha-ingreso"
+            type="date"
+            className="form-input"
+            value={fecha}
+            onChange={(e) => setFecha(e.target.value)}
+            required
+          />
+        </div>
+        
+        <button type="submit" className="form-button-submit" disabled={cargando}>
+          {cargando ? "Guardando..." : "Guardar Ingreso"}
         </button>
       </form>
     </div>

@@ -1,0 +1,132 @@
+/* Estilos para el Modal de Unirse a Proyecto */
+
+.modal-overlay-unirse {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-content-unirse {
+    background: var(--surface-color, #fff);
+    padding: 1.5rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    border: 1px solid var(--border-color, #e5e7eb);
+    animation: slideIn 0.3s ease-out;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    color: var(--text-primary, #1f2937);
+    text-align: center;
+}
+
+.modal-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted, #6b7280);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary, #374151);
+}
+
+.modal-input {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #d1d5db);
+    background-color: var(--bg-input, #f9fafb);
+    color: var(--text-primary, #111827);
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 0.1em; /* Para que el código se vea mejor */
+    transition: all 0.2s ease-in-out;
+}
+
+.modal-input:focus {
+    outline: none;
+    border-color: var(--border-focus-color, #4f46e5);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.modal-error {
+    color: var(--danger-color, #dc2626);
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+.modal-actions-join {
+    display: flex;
+    flex-direction: column-reverse; /* Botón principal abajo en móvil */
+    gap: 0.75rem;
+}
+
+.modal-actions-join button {
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color, #4f46e5);
+    color: var(--text-on-primary, #fff);
+}
+.btn-primary:hover {
+    background-color: var(--primary-color-hover, #4338ca);
+}
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-secondary, #374151);
+    border: 1px solid var(--border-color, #d1d5db);
+}
+.btn-secondary:hover {
+    background-color: var(--surface-muted-color, #f3f4f6);
+    border-color: var(--text-secondary, #6b7280);
+}
+
+
+/* --- Animaciones --- */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+
+/* --- Estilos para Tablet y Escritorio --- */
+@media (min-width: 480px) {
+    .modal-actions-join {
+        flex-direction: row; /* Botones en fila en pantallas más grandes */
+        justify-content: flex-end;
+    }
+    .modal-actions-join button {
+        width: auto;
+    }
+}

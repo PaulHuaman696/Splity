@@ -1,81 +1,78 @@
 import React, { useState } from "react";
-import { auth } from "../../firebase/firebaseConfig";
+import { authFetch } from "../../utils/authFetch";
+import { useNavigate } from "react-router-dom";
 import "./ProyectoGastoForm.css";
 
 const ProyectoGastoForm = () => {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
+  const [cargando, setCargando] = useState(false);
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
   const api_url = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setCargando(true);
+    setError("");
 
-    const user = auth.currentUser;
-    const token = localStorage.getItem("token");
-
-    if (!user || !token) {
-      alert("Usuario no autenticado");
+    if (!nombre.trim()) {
+      setError("El nombre del proyecto es obligatorio.");
+      setCargando(false);
       return;
     }
 
     try {
-      const res = await fetch(`${api_url}/api/projects`, {
+      const data = await authFetch(`${api_url}/api/projects`, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          nombre,
-          descripcion,
-          creadoPor: {
-            uid: user.uid,
-            nombre: user.displayName || user.email || "Sin nombre",
-          },
-          participantes: [],
-        }),
+        body: JSON.stringify({ nombre, descripcion }),
       });
-
-      const data = await res.json();
-      if (res.ok) {
-        alert("Proyecto creado con éxito. Código: " + data.codigoUnico);
-        setNombre("");
-        setDescripcion("");
-      } else {
-        alert("Error al crear el proyecto: " + data.error);
-      }
-    } catch (err) {
+      alert("Proyecto creado con éxito. Código: " + data.codigoUnico);
+      // Opcional: navegar a la lista de proyectos o al nuevo proyecto
+      navigate("/proyectos-gastos/lista");
+    } catch (err: any) {
       console.error("Error al crear proyecto:", err);
-      alert("Error inesperado al crear el proyecto");
+      setError(err.message || "Error inesperado al crear el proyecto");
+    } finally {
+      setCargando(false);
     }
   };
 
   return (
-    <div className="proyecto-container">
-      <h2 className="proyecto-title">Nuevo Proyecto de Gasto Compartido</h2>
-      <form onSubmit={handleSubmit}>
-        <label className="proyecto-label">
-          Nombre del Proyecto:
+    <div className="form-page-container">
+      <form onSubmit={handleSubmit} className="form-card">
+        <h2 className="form-title">Nuevo Proyecto Compartido</h2>
+        
+        <div className="form-group">
+          <label htmlFor="nombre-proyecto">Nombre del Proyecto</label>
           <input
+            id="nombre-proyecto"
             type="text"
+            className="form-input"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
             required
-            className="proyecto-input"
+            placeholder="Ej: Viaje de fin de semana"
           />
-        </label>
+        </div>
 
-        <label className="proyecto-label">
-          Descripción (opcional):
+        <div className="form-group">
+          <label htmlFor="descripcion-proyecto">Descripción (opcional)</label>
           <textarea
+            id="descripcion-proyecto"
+            className="form-input"
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
-            className="proyecto-input"
+            placeholder="Ej: Gastos para el viaje a la playa"
+            rows={4}
           />
-        </label>
+        </div>
 
-        <button type="submit" className="proyecto-submit">
-          Crear Proyecto
+        {error && <p className="form-error">{error}</p>}
+        
+        <button type="submit" className="btn-primary" disabled={cargando}>
+          {cargando ? "Creando..." : "Crear Proyecto"}
         </button>
       </form>
     </div>

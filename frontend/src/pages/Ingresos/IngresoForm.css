@@ -1,62 +1,80 @@
-/* src/pages/Ingresos/IngresoForm.css */
+/* IngresoForm.css - Refactorizado y Adaptable */
 
-.ingreso-container {
+.form-page-container {
   max-width: 500px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 0rem auto;
+  padding: 1rem;
 }
 
-.ingreso-title {
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 24px;
-  color: #1f2937;
-}
-
-.ingreso-form {
+.ingreso-form-card {
+  background-color: var(--surface-color, #fff);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 1.25rem;
 }
 
-.ingreso-input {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  color: #111827;
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 1rem 0;
+  color: var(--primary-text-color);
 }
 
-.ingreso-button {
-  padding: 10px;
-  background-color: #4f46e5;
-  color: white;
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary, #374151);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #d1d5db);
+  background-color: var(--bg-input, #f9fafb);
+  color: var(--text-primary, #111827);
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--border-focus-color, #4f46e5);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.form-button-submit {
+  background-color: var(--primary-color, #4f46e5);
+  color: var(--text-on-primary, #fff);
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
   border: none;
-  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
+  margin-top: 1rem;
+  transition: background-color 0.2s ease;
 }
 
-.ingreso-button:hover {
-  background-color: #4338ca;
+.form-button-submit:hover {
+  background-color: var(--primary-color-hover, #4338ca);
 }
 
-/* 📱 Responsividad */
-@media (max-width: 600px) {
-  .ingreso-container {
-    margin: 20px;
-    padding: 16px;
-  }
-
-  .ingreso-title {
-    font-size: 20px;
-  }
-
-  .ingreso-button {
-    font-size: 14px;
-    padding: 8px;
-  }
+.form-button-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
+
+/* El modo oscuro funcionará automáticamente gracias al uso de variables
+   definidas en tu archivo CSS global (ej. index.css) */

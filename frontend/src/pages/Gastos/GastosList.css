@@ -1,251 +1,188 @@
-/* GastosList.css */
+/* GastosList.css - Versión Refactorizada, Responsiva y Corregida */
+
+/* Las variables se heredan del archivo CSS global (ej. index.css) */
 
 .gastos-container {
-  background: #f9fafb;
-  padding: 30px;
+  background-color: var(--surface-color, #fff);
+  padding: 1rem;
   border-radius: 12px;
-  max-width: 900px;
-  margin: 0 auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 1.5rem auto;
+  max-width: 1100px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color, #e5e7eb);
 }
 
 .gastos-title {
-  font-size: 28px;
+  font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
   text-align: center;
-  color: #1f2937;
-  letter-spacing: 0.5px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #6366f1;
-  max-width: 300px;
-  margin-inline: auto;
+  color: var(--text-primary, #1f2937);
 }
 
+/* --- Filtros --- */
 .filtros-container {
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: center;
-  background-color: #f9fafb;
-  padding: 16px;
+  flex-direction: column; /* Apilado en móvil por defecto */
+  gap: 1rem;
+  background-color: var(--surface-muted-color, #f9fafb);
+  padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color, #e5e7eb);
 }
 
 .filtro-label {
   display: flex;
   flex-direction: column;
-  font-size: 14px;
+  font-size: 0.9rem;
   font-weight: 500;
-  color: #374151;
-  min-width: 150px;
+  color: var(--text-secondary, #374151);
+  gap: 0.25rem;
 }
 
 .filtro-input,
 .filtro-select {
-  padding: 8px 12px;
+  padding: 0.5rem 0.75rem;
   border-radius: 6px;
-  border: 1px solid #d1d5db;
-  font-size: 14px;
-  margin-top: 4px;
-  outline-color: #2563eb;
-  background-color: #ffffff;
+  border: 1px solid var(--border-input-color, #d1d5db);
+  font-size: 0.9rem;
+  background-color: var(--surface-color, #ffffff);
+  color: var(--text-primary, #111827);
+  outline-color: var(--primary-color, #2563eb);
 }
 
+/* --- Tabla de Gastos (Diseño de Tarjetas para Móvil por Defecto) --- */
 .gastos-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.gastos-th {
-  background-color: #4f46e5;
-  color: white;
-  padding: 12px;
-  text-align: left;
-  border-bottom: 2px solid #ddd;
+/* Ocultamos la cabecera en móvil, usaremos data-labels */
+.gastos-table thead {
+  display: none;
 }
 
-.gastos-tr {
-  background-color: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+/* Cada fila es una tarjeta en móvil */
+.gastos-table .gastos-tr {
+  display: block;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 1rem;
 }
 
 .gastos-td {
-  padding: 12px;
-  color: #374151;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  text-align: right;
+  border-bottom: 1px dashed var(--border-muted-color, #f3f4f6);
+  color: var(--text-primary, #111827);
+  word-break: break-word; /* Evita desbordamiento con texto largo */
+}
+
+.gastos-tr .gastos-td:last-child {
+  border-bottom: none;
+}
+
+.gastos-td::before {
+  content: attr(data-label);
+  font-weight: 600;
+  text-align: left;
+  color: var(--text-secondary, #374151);
+  padding-right: 1rem;
 }
 
 .gastos-acciones {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  gap: 0.5rem;
 }
 
 .gastos-boton {
-  text-decoration: none;
-  cursor: pointer;
-  background: #6366f1;
-  color: white;
+  background: none;
   border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0.25rem;
+  transition: transform 0.2s;
 }
-
 .gastos-boton:hover {
-  background-color: #4f46e5;
+  transform: scale(1.2);
 }
 
-/* 📱 Responsivo: Tablets y móviles */
-@media (max-width: 768px) {
-  .filtros-container {
-    flex-direction: column;
-    align-items: stretch;
-  }
 
-  .filtro-label {
-    min-width: 100%;
-  }
+/* --- Estilos para Tablet y Escritorio --- */
 
+@media (min-width: 768px) {
   .gastos-container {
-    padding: 20px;
+    padding: 2rem;
   }
-
   .gastos-title {
-    font-size: 24px;
+    font-size: 1.75rem;
   }
-
-  .gastos-boton {
-    font-size: 12px;
-    padding: 5px 10px;
+  .filtros-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
   }
-}
-
-@media (max-width: 480px) {
-  .gastos-title {
-    font-size: 20px;
-  }
-
-  .gastos-table {
-    font-size: 13px;
-    display: block;
-    overflow-x: auto;
-  }
-
-  .gastos-th,
-  .gastos-td {
-    padding: 8px;
-  }
-
-  .gastos-acciones {
-    flex-direction: column;
-    gap: 6px;
+  .filtro-label {
+    flex: 1;
+    min-width: 180px;
   }
 }
 
-/*
-.gastos-container {
-  background: #f9fafb;
-  padding: 30px;
-  border-radius: 12px;
-  max-width: 900px;
-  margin: 0 auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+@media (min-width: 1024px) {
+  /* Restauramos la vista de tabla para pantallas grandes */
+  .gastos-table thead {
+    display: table-header-group !important; /* Forzamos la visibilidad */
+    position: sticky;
+  }
+  
+  .gastos-table thead tr {
+    /* Creamos una línea inferior gruesa y sólida para separar la cabecera */
+    border-bottom: 2px solid var(--border-color, #e5e7eb);
+  }
 
-.gastos-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 24px;
-  text-align: center;
-  color: #1f2937;
-  letter-spacing: 0.5px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #6366f1;
-  max-width: 300px;
-  margin-inline: auto;
-}
+  .gastos-table .gastos-tr {
+    display: table-row !important; /* Forzamos el comportamiento de fila */
+    border: none;
+    margin-bottom: 0;
+    box-shadow: none;
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
+  }
 
-.filtros-container {
-  margin-bottom: 24px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: center;
-  background-color: #f9fafb;
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
+  .gastos-tr:hover {
+    background-color: var(--surface-muted-color, #f9fafb);
+  }
+  
+  /* 👇 LA CORRECCIÓN MÁS IMPORTANTE Y AGRESIVA ESTÁ AQUÍ 👇 */
+  /* Usamos un selector más específico y !important para garantizar la victoria */
+  .gastos-table .gastos-td {
+    display: table-cell !important;
+    text-align: left !important;
+    vertical-align: middle !important;
+    border: none !important;
+    /* El padding se mantiene, no necesita !important */
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Ocultamos las etiquetas de la vista móvil con !important */
+  .gastos-td::before {
+    display: none !important;
+  }
 
-.filtro-label {
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
-  font-weight: 500;
-  color: #374151;
-  min-width: 150px;
-  flex: 1;
+  .gastos-table .gastos-th {
+    display: table-cell !important;
+    /* Le damos un fondo sutil pero distinto al resto de la tarjeta */
+    background-color: var(--surface-muted-color, #f9fafb);
+    color: var(--text-secondary, #6b7280);
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.75rem; /* Un poco más pequeño para un look más "pro" */
+    font-weight: 600;   /* Más grueso para que resalte */
+    text-transform: uppercase;
+    letter-spacing: 0.05em; /* Espaciado de letra para un toque de diseño */
+  }
 }
-
-.filtro-input,
-.filtro-select {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid #d1d5db;
-  font-size: 14px;
-  margin-top: 4px;
-  outline-color: #2563eb;
-  background-color: #ffffff;
-  width: 100%;
-}
-
-.gastos-table {
-  width: 100%;
-  border-collapse: collapse;
-  overflow-x: auto;
-}
-
-.gastos-th {
-  background-color: #4f46e5;
-  color: white;
-  padding: 12px;
-  text-align: left;
-  border-bottom: 2px solid #ddd;
-  white-space: nowrap;
-}
-
-.gastos-tr {
-  background-color: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.gastos-td {
-  padding: 12px;
-  color: #374151;
-  white-space: nowrap;
-  vertical-align: top;
-}
-
-.gastos-acciones {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.gastos-boton {
-  text-decoration: none;
-  cursor: pointer;
-  background: #6366f1;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.gastos-boton:hover {
-  background-color: #4f46e5;
-}
-*/

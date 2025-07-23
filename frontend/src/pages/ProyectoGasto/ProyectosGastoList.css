@@ -1,142 +1,231 @@
-.proyectos-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* ProyectosGastoList.css - Rediseño con Tarjetas */
+
+.proyectos-page.page-container {
+  max-width: 1400px;
+  margin: 0rem auto;
+  padding: 1rem; /* Padding base para móvil */
+}
+
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+}
+.page-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.page-actions .btn-primary,
+.page-actions .btn-secondary {
+  border: 1px solid transparent; /* Borde base para alineación */
+  padding: 0.6rem 1.2rem;
   border-radius: 8px;
-  background-color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-family: inherit; /* Asegura que usen la fuente correcta */
+  white-space: nowrap; /* Evita que el texto se parta */
 }
 
-.proyectos-title {
-  font-size: 24px;
-  margin-bottom: 20px;
+/* Estilo para el botón primario (acción principal, más llamativa) */
+.page-actions .btn-primary {
+  background-color: var(--primary-color, #4f46e5);
+  color: var(--text-on-primary, #fff);
 }
 
-.proyectos-table {
-  width: 100%;
-  border-collapse: collapse;
+.page-actions .btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.proyectos-table th,
-.proyectos-table td {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  text-align: left;
+/* Estilo para el botón secundario (acción alternativa, más sutil) */
+.page-actions .btn-secondary {
+  background-color: var(--surface-color, #fff);
+  color: var(--text-secondary, #374151);
+  border-color: var(--border-color, #e5e7eb);
 }
 
-.proyectos-table th {
-  background-color: #f9fafb;
+.page-actions .btn-secondary:hover {
+  background-color: var(--surface-muted-color, #f3f4f6);
+  border-color: var(--text-secondary, #374151);
 }
 
-.modal-overlay {
-  position: fixed;
+/* --- Rejilla de Proyectos --- */
+.proyectos-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem; /* Espacio base entre tarjetas */
+}
+
+/* --- Tarjeta de Proyecto --- */
+.proyecto-card {
+  background-color: var(--surface-color, #fff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.proyecto-card::before {
+  content: '';
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  right: 0;
+  height: 4px;
+  background-color: var(--primary-color, #4f46e5);
+}
+
+.proyecto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.proyecto-card-header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
+}
+.proyecto-card-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
 }
 
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  min-width: 300px;
+.proyecto-card-body {
+  padding: 1.5rem;
+  flex-grow: 1; /* Empuja el footer hacia abajo */
+}
+.proyecto-descripcion {
+  color: var(--text-muted, #6b7280);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+.proyecto-meta {
+  font-size: 0.8rem;
+  color: var(--text-secondary, #374151);
 }
 
-/* Contenedor principal con padding más pequeño en móvil */
-@media (max-width: 600px) {
-  .proyectos-container {
-    padding: 10px;
-    margin: 10px;
+.proyecto-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: var(--surface-muted-color, #f9fafb);
+  border-top: 1px solid var(--border-color, #e5e7eb);
+}
+
+/* --- Avatares de Participantes --- */
+.participantes-avatar-stack {
+  display: flex;
+}
+.avatar-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--primary-color, #4f46e5);
+  color: var(--text-on-primary, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.8rem;
+  border: 2px solid var(--surface-color, #fff);
+  /* Efecto de apilamiento */
+  margin-left: -10px;
+  transition: transform 0.2s ease;
+}
+.avatar-circle:first-child {
+  margin-left: 0;
+}
+.participantes-avatar-stack:hover .avatar-circle {
+  transform: translateX(-5px);
+}
+.avatar-circle.more {
+  background-color: var(--text-secondary, #374151);
+}
+
+/* --- Botones --- */
+.btn-icon {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--text-muted, #6b7280);
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+.btn-icon:hover {
+  background-color: var(--surface-muted-color, #f3f4f6);
+  color: var(--text-primary, #1f2937);
+}
+
+.btn-compartir {
+  background-color: var(--accent-bg-subtle, #dbeafe);
+  color: var(--primary-text-color, #2563eb);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.btn-compartir:hover {
+  filter: brightness(0.95);
+}
+
+@media (min-width: 768px) {
+  .proyectos-page.page-container {
+    padding: 2rem; /* Aumentamos el padding para más "aire" a los lados */
   }
 
-  /* Tabla se vuelve scrollable horizontal para no romper layout */
-  .proyectos-table {
-    display: block;
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    /* para mejor scroll en iOS */
+  .proyectos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
   }
 
-  /* Encabezados y celdas se alinean mejor */
-  .proyectos-table th,
-  .proyectos-table td {
-    padding: 8px 6px;
-    font-size: 14px;
+  .page-title {
+    font-size: 2rem;
   }
+}
 
-  /* Botones se apilan y ocupan 100% ancho */
-  .proyectos-button {
-    width: 100%;
-    margin-bottom: 8px;
-  }
-
-  /* Contenedor de botones: que apile verticalmente en móvil */
-  div[style*="margin-bottom: 1rem"] {
-    display: flex;
+@media (max-width: 767px) {
+  .page-header {
+    /* En móvil, el título y los botones se apilan */
     flex-direction: column;
-    gap: 8px;
+    align-items: stretch; /* Hacemos que los elementos ocupen todo el ancho */
+  }
+  .page-title {
+    text-align: center; /* Centramos el título en móvil */
+  }
+  .page-actions {
+    width: 100%;
+    flex-direction: column-reverse; /* El botón primario queda abajo, más accesible */
+  }
+  .page-actions .btn-primary,
+  .page-actions .btn-secondary {
+    width: 100%; /* Cada botón ocupa todo el ancho */
   }
 }
 
-/*
-@media (max-width: 600px) {
-  .proyectos-table,
-  .proyectos-table thead,
-  .proyectos-table tbody,
-  .proyectos-table th,
-  .proyectos-table td,
-  .proyectos-table tr {
-    display: block;
-  }
-
-  .proyectos-table thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
-
-  .proyectos-table tr {
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    padding: 10px;
-  }
-
-  .proyectos-table td {
-    border: none;
-    padding-left: 50%;
-    position: relative;
-  }
-
-  .proyectos-table td::before {
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    white-space: nowrap;
-    font-weight: bold;
-  }
-
-  .proyectos-table td:nth-of-type(1)::before {
-    content: "Nombre";
-  }
-  .proyectos-table td:nth-of-type(2)::before {
-    content: "Código";
-  }
-  .proyectos-table td:nth-of-type(3)::before {
-    content: "Fecha";
-  }
-  .proyectos-table td:nth-of-type(4)::before {
-    content: "Participantes";
-  }
-  .proyectos-table td:nth-of-type(5)::before {
-    content: "Acciones";
-  }
-}
-
-*/
+/* El modo oscuro es automático gracias a las variables */

@@ -1,0 +1,96 @@
+/* Perfil.css - Refactorizado, Responsivo y con Modo Oscuro */
+
+.perfil-page-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.perfil-page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--text-primary, #1f2937);
+}
+
+/* Rejilla principal que contiene las tarjetas */
+.perfil-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Una columna en móvil */
+  gap: 2rem;
+}
+
+/* Estilo de tarjeta genérico, heredado de tu CSS global */
+.form-card {
+  background-color: var(--surface-color, #fff);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
+  color: var(--text-primary, #1f2937);
+}
+
+.form-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Vista de display de perfil */
+.profile-display, .form-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.info-item span {
+  font-size: 0.9rem;
+  color: var(--text-muted, #6b7280);
+}
+
+.info-item strong {
+  font-size: 1rem;
+  color: var(--text-primary, #1f2937);
+  font-weight: 500;
+}
+
+/* Estilos de formulario (reutilizables) */
+.form-group label { /* ... (ya definido en tu CSS global o en otros archivos) ... */ }
+.form-input { /* ... (ya definido en tu CSS global o en otros archivos) ... */ }
+.form-error { /* ... (ya definido en tu CSS global o en otros archivos) ... */ }
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  border-top: 1px solid var(--border-color, #e5e7eb);
+  padding-top: 1.5rem;
+}
+/* Botones (reutilizables) */
+.btn-primary, .btn-secondary { /* ... (ya definido en tu CSS global o en otros archivos) ... */ }
+
+
+/* --- Estilos para Escritorio --- */
+@media (min-width: 1024px) {
+  /* La rejilla ahora tiene 2 columnas para poner las tarjetas una al lado de la otra */
+  .perfil-grid {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start; /* Alinea las tarjetas en la parte superior */
+  }
+}

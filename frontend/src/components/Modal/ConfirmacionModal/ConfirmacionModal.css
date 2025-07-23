@@ -1,0 +1,196 @@
+/* ConfirmacionModal.css - Diseño UI/UX Mejorado */
+
+:root {
+  /* Paleta de Colores (Modo Claro) */
+  --modal-bg: #ffffff;
+  --modal-text-primary: #111827;
+  --modal-text-secondary: #4b5563;
+  --modal-border: #e5e7eb;
+  --modal-accent-bg: #e0e7ff;
+  --modal-accent-icon: #4f46e5;
+  --modal-success: #16a34a;
+  --modal-success-hover: #15803d;
+  --modal-cancel-bg: #f3f4f6;
+  --modal-cancel-bg-hover: #e5e7eb;
+  --modal-cancel-text: #374151;
+}
+
+/* --- Estructura Principal del Modal --- */
+
+.universal-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(17, 24, 39, 0.6);
+  /* Un fondo más oscuro y azulado */
+  backdrop-filter: blur(4px);
+  /* Efecto de desenfoque moderno */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.universal-modal-content {
+  background: var(--modal-bg);
+  padding: 1.5rem;
+  border-radius: 16px;
+  /* Más redondeado */
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  /* Centramos el contenido para un look de confirmación */
+  animation: slideIn 0.3s ease-out;
+}
+
+/* --- Encabezado con Ícono --- */
+
+.universal-modal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.modal-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--modal-accent-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-icon-wrapper svg {
+  width: 24px;
+  height: 24px;
+  color: var(--modal-accent-icon);
+}
+
+.universal-modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--modal-text-primary);
+  margin: 0;
+}
+
+/* --- Cuerpo y Acciones --- */
+
+.universal-modal-body {
+  margin: 0 0 1.5rem 0;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: var(--modal-text-secondary);
+}
+
+.universal-modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Dos columnas de igual tamaño */
+  gap: 0.75rem;
+}
+
+.btn-accion-modal {
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-accion-modal.confirmar {
+  background-color: var(--modal-success);
+  color: white;
+}
+
+.btn-accion-modal.confirmar:hover {
+  background-color: var(--modal-success-hover);
+}
+
+.btn-accion-modal.rechazar {
+  background-color: var(--modal-cancel-bg);
+  color: var(--modal-cancel-text);
+}
+
+.btn-accion-modal.rechazar:hover {
+  background-color: var(--modal-cancel-bg-hover);
+}
+
+/* Animación de carga para el botón de confirmar */
+.btn-accion-modal.confirmar:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+  position: relative;
+  color: transparent;
+  /* Ocultamos el texto */
+}
+
+.btn-accion-modal.confirmar:disabled::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* --- Animaciones y Modo Oscuro --- */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --modal-bg: #1e293b;
+    --modal-text-primary: #f1f5f9;
+    --modal-text-secondary: #94a3b8;
+    --modal-border: #334155;
+    --modal-accent-bg: #334155;
+    --modal-accent-icon: #7dd3fc;
+    --modal-success: #22c55e;
+    --modal-success-hover: #16a34a;
+    --modal-cancel-bg: #334155;
+    --modal-cancel-bg-hover: #475569;
+    --modal-cancel-text: #e2e8f0;
+  }
+}

@@ -1,61 +1,146 @@
-/* src/pages/Ingresos/IngresosList.css */
+/* IngresosList.css - Versión Final con Layout Corregido */
 
-.ingresos-container {
+/* Las variables se heredan del archivo CSS global (ej. index.css) */
+
+.list-container {
+  background-color: var(--surface-color, #fff);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin: 1.5rem auto;
   max-width: 900px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color, #e5e7eb);
 }
 
-.ingresos-title {
+.list-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 1rem;
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #1f2937;
+  color: var(--text-primary, #1f2937);
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
 }
 
-.ingresos-table {
+/* --- Tabla (Diseño de Tarjetas para Móvil por Defecto) --- */
+.data-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.ingresos-th {
-  background-color: #f3f4f6;
-  padding: 12px;
+/* Ocultamos la cabecera en móvil */
+.data-table thead {
+  display: none;
+}
+
+.data-table tbody tr {
+  display: block;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.data-table td {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  text-align: right;
+  border-bottom: 1px dashed var(--border-muted-color, #f3f4f6);
+  color: var(--text-primary, #111827);
+  font-size: 0.95rem;
+  word-break: break-word;
+}
+
+.data-table tr:last-child {
+  margin-bottom: 0;
+}
+
+.data-table td:last-child {
+  border-bottom: none;
+}
+
+.data-table td::before {
+  content: attr(data-label);
+  font-weight: 600;
   text-align: left;
-  border-bottom: 2px solid #e5e7eb;
-  font-size: 16px;
-  color: #374151;
+  color: var(--text-secondary, #374151);
+  padding-right: 1rem;
 }
 
-.ingresos-td {
-  padding: 12px;
-  border-bottom: 1px solid #e5e7eb;
-  font-size: 15px;
-  color: #374151;
+.data-table td[data-label="Monto"] {
+  font-weight: 600;
+  color: var(--success-color, #16a34a);
 }
 
-/* 📱 Responsividad */
-@media (max-width: 640px) {
-  .ingresos-container {
-    margin: 20px 10px;
-    padding: 16px;
+.list-message {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted, #6b7280);
+}
+
+
+/* --- Estilos para Tablet y Escritorio (768px y más) --- */
+
+@media (min-width: 768px) {
+  .list-container {
+    padding: 2rem;
+  }
+  .list-title {
+    font-size: 1.75rem;
   }
 
-  .ingresos-title {
-    font-size: 20px;
+  /* --- Restauramos la vista de tabla con !important para forzar el estilo --- */
+
+  .list-container .data-table thead {
+    display: table-header-group !important;
+    position: sticky;
+    background-color: var(--surface-muted-color, #f9fafb);
   }
 
-  .ingresos-th,
-  .ingresos-td {
-    font-size: 14px;
-    padding: 10px;
+  .list-container .data-table tr {
+    display: table-row !important;
+    border: none !important;
+    margin-bottom: 0 !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid var(--border-color, #e5e7eb) !important;
+  }
+  .list-container .data-table tbody tr:last-child {
+      border-bottom: none !important;
   }
 
-  .ingresos-table {
-    font-size: 14px;
+  .list-container .data-table tr:hover {
+    background-color: var(--surface-muted-color, #f9fafb) !important;
+  }
+
+  /* 👇 LA CORRECCIÓN MÁS IMPORTANTE Y AGRESIVA ESTÁ AQUÍ 👇 */
+  .list-container .data-table th,
+  .list-container .data-table td {
+    display: table-cell !important;
+    text-align: left !important;
+    vertical-align: middle !important;
+    border: none !important;
+    padding: 0.75rem 1rem;
+  }
+
+  /* Ocultamos las etiquetas de la vista móvil con !important */
+  .list-container .data-table td::before {
+    display: none !important;
+  }
+
+  /* Estilos específicos para la cabecera */
+  .list-container .data-table th {
+    color: var(--text-secondary, #6b7280);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+  
+  /* Hacemos que la columna de monto se alinee a la derecha en escritorio */
+  .list-container .data-table th:first-child,
+  .list-container .data-table td:first-child {
+      text-align: right !important;
   }
 }
+
+/* El modo oscuro funcionará automáticamente gracias al uso de variables */

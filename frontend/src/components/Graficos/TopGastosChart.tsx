@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -19,70 +19,85 @@ interface TopGastoData {
 }
 
 const TopGastosChart = () => {
-  const [chartData, setChartData] = useState<any>({
-    labels: [],
-    datasets: [],
-  });
+  const [chartConfig, setChartConfig] = useState<{ data: any; options: any; } | null>(null);
   const [error, setError] = useState('');
   const api_url = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    authFetch(`${api_url}/api/reportes/top-gastos`)
-      .then((data: TopGastoData[]) => {
-        if (!data || data.length === 0) {
+    const cargarYConfigurarGrafico = async () => {
+      try {
+        // 1. Pedimos los datos a la API
+        const apiData: TopGastoData[] = await authFetch(`${api_url}/api/reportes/top-gastos`);
+
+        if (!apiData || apiData.length === 0) {
           setError('No tienes gastos registrados este mes.');
           return;
         }
 
-        // Invertimos los datos para que el más grande aparezca arriba en el gráfico
-        const reversedData = data.reverse();
+        // 2. Leemos los colores del tema desde el CSS
+        const textColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-text-color').trim();
+        const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-grid-color').trim();
+        const dangerColor = getComputedStyle(document.documentElement).getPropertyValue('--danger-color').trim();
+        const dangerColorTransparent = getComputedStyle(document.documentElement).getPropertyValue('--danger-color-transparent').trim();
+
+        // 3. Preparamos los datos para el gráfico
+        const reversedData = [...apiData].reverse();
         const labels = reversedData.map(d => d.item);
         const montos = reversedData.map(d => d.monto);
 
-        setChartData({
+        const data = {
           labels,
-          datasets: [
-            {
-              label: 'Monto Gasto',
-              data: montos,
-              borderColor: 'rgb(255, 99, 132)',
-              backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          datasets: [{
+            label: 'Monto Gasto',
+            data: montos,
+            borderColor: dangerColor,
+            backgroundColor: dangerColorTransparent,
+            borderWidth: 1,
+          }],
+        };
+
+        // 4. Preparamos las opciones del gráfico con los colores del tema
+        const options = {
+          indexAxis: 'y' as const,
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            title: { display: false },
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              ticks: { color: textColor },
+              grid: { color: gridColor },
+              title: { display: true, text: 'Monto en S/.', color: textColor },
             },
-          ],
-        });
-      })
-      .catch(() => setError('No se pudo cargar el top de gastos.'));
+            y: {
+              ticks: { color: textColor },
+              grid: { color: 'transparent' },
+            }
+          }
+        };
+
+        // 5. Guardamos toda la configuración en el estado UNA SOLA VEZ
+        setChartConfig({ data, options });
+
+      } catch (err) {
+        setError('No se pudo cargar el top de gastos.');
+        console.error(err);
+      }
+    };
+
+    cargarYConfigurarGrafico();
   }, [api_url]);
 
-  const options = {
-    indexAxis: 'y' as const, // <-- ¡Esta línea convierte el gráfico en horizontal!
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      },
-      title: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: 'Monto en S/.'
-        }
-      }
-    }
-  };
-
   if (error) return <p className="chart-message">{error}</p>;
-  if (chartData.labels.length === 0) return <p className="chart-message">Cargando top 5 de gastos...</p>;
+  // Mientras chartConfig sea null, mostramos el mensaje de carga
+  if (!chartConfig) return <p className="chart-message">Cargando top 5 de gastos...</p>;
 
   return (
     <div className="chart-wrapper">
-      <Bar options={options} data={chartData} />
+      <Bar options={chartConfig.options} data={chartConfig.data} />
     </div>
   );
 };

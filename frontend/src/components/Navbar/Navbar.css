@@ -1,7 +1,7 @@
 .navbar {
     height: 70px;
-    background-color: #4f46e5;
-    color: white;
+    background-color: var(--primary-color, #4f46e5);
+    color: var(--text-on-primary, white);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -10,6 +10,7 @@
     position: sticky;
     top: 0;
     z-index: 1000;
+    border-bottom: 3px solid var(--navbar-border-color);
 }
 
 .navbar-title {
@@ -18,12 +19,16 @@
 }
 
 .navbar-button {
-    background-color: #ef4444;
-    color: white;
+    background-color: var(--danger-color, #ef4444);
+    color: var(--text-on-primary, white);
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
+}
+.navbar-button:hover {
+    filter: brightness(1.1);
+    transform: scale(1.05);
 }
 
 @media (max-width: 600px) {
@@ -51,4 +56,30 @@
         margin-right: 0px;
         width: max-content;
     }
+}
+
+@media (prefers-color-scheme: dark) {
+
+  .navbar {
+    /* En modo oscuro, el navbar toma el color de las tarjetas para un look más integrado */
+    background-color: var(--surface-color, #1e293b);
+    /* Añadimos un borde para separarlo del contenido */
+    border-bottom-color: var(--border-color, #334155);
+  }
+
+  .navbar-title,
+  .hamburger {
+    /* El texto y el ícono ahora usan el color de texto primario del tema oscuro */
+    color: var(--text-primary, #f1f5f9);
+  }
+
+  .navbar-button {
+      /* El botón de peligro usa la versión más brillante del rojo para modo oscuro */
+      background-color: var(--danger-color, #f87171);
+      color: #1f2937; /* Texto oscuro para mejor contraste sobre rojo brillante */
+  }
+
+  .navbar-button:hover {
+      filter: brightness(1.1);
+  }
 }

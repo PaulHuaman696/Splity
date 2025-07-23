@@ -1,125 +1,98 @@
-.proyecto-container {
+/* ProyectoGastoForm.css - Refactorizado y Adaptable */
+
+/* Las variables se heredan del archivo CSS global (ej. index.css) */
+
+.form-page-container {
   max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  background-color: #fff;
+  margin: 2rem auto;
+  padding: 1rem;
 }
 
-.proyecto-title {
-  width: 100%;
-  font-size: 24px;
-  margin-bottom: 20px;
+.form-card {
+  background-color: var(--surface-color, #fff);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
-.proyecto-label {
-  display: block;
-  margin-bottom: 12px;
-  font-size: 14px;
-}
-
-.proyecto-input {
-  width: 100%;
-  padding: 10px;
-  margin: 6px 0 12px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.proyecto-button {
-  background-color: #4f46e5;
-  color: #fff;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 10px 0;
-}
-
-.proyecto-submit {
-  background-color: #38b2ac;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* 📱 Responsividad */
-@media (max-width: 600px) {
-  .proyecto-container {
-    margin: 20px 16px;
-    padding: 20px;
-  }
-
-  .proyecto-title {
-    font-size: 20px;
-  }
-
-  .proyecto-submit {
-    font-size: 15px;
-    padding: 10px;
-  }
-}
-
-/*
-.proyecto-container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 24px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  background-color: #ffffff;
-}
-
-.proyecto-title {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 24px;
-  text-align: center;
-  color: #1f2937;
-}
-
-.proyecto-label {
-  display: block;
-  margin-bottom: 16px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #374151;
-}
-
-.proyecto-input {
-  width: 100%;
-  padding: 10px 12px;
-  margin-top: 6px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 14px;
-  outline-color: #4f46e5;
-  background-color: #f9fafb;
-  color: #111827;
-}
-
-textarea.proyecto-input {
-  resize: vertical;
-  min-height: 80px;
-}
-
-.proyecto-submit {
-  width: 100%;
-  background-color: #38b2ac;
-  color: #fff;
-  padding: 12px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
+.form-title {
+  font-size: 1.5rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
+  text-align: center;
+  margin: 0 0 1rem 0;
+  color: var(--text-primary, #1f2937);
 }
 
-.proyecto-submit:hover {
-  background-color: #319795;
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
-*/
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary, #374151);
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #d1d5db);
+  background-color: var(--bg-input, #f9fafb);
+  color: var(--text-primary, #111827);
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  font-family: inherit; /* Hereda la fuente principal */
+}
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--border-focus-color, #4f46e5);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.btn-primary {
+  background-color: var(--primary-color, #4f46e5);
+  color: var(--text-on-primary, #fff);
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-color-hover, #4338ca);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-error {
+  color: var(--danger-color, #dc2626);
+  background-color: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(252, 165, 165, 0.5);
+  padding: 0.75rem;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Este formulario es simple y ya es responsivo por defecto,
+   por lo que no necesita media queries adicionales. */

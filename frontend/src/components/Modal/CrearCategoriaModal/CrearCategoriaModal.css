@@ -1,0 +1,146 @@
+/* CrearModal.css - Versión Mejorada y con Modo Oscuro */
+
+.crear-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 1rem;
+}
+
+.crear-modal {
+  background: #ffffff;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.crear-modal h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  color: #1f2937;
+}
+
+.crear-input {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  background-color: #f9fafb;
+}
+
+.crear-input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.crear-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.crear-button, .crear-cancel-button {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+/* Botón principal (Crear/Guardar) */
+.crear-button {
+  background-color: #4f46e5;
+  color: white;
+}
+.crear-button:hover {
+  background-color: #4338ca;
+}
+
+/* Botón secundario (Cancelar) */
+.crear-cancel-button {
+  background-color: #e5e7eb;
+  color: #4b5563;
+}
+.crear-cancel-button:hover {
+  background-color: #d1d5db;
+}
+
+button + button {
+  margin-left: 0rem;
+}
+
+/* --- Estilos Responsivos (ya los tenías, con pequeños ajustes) --- */
+
+@media (max-width: 480px) {
+  .crear-modal {
+    max-width: 95%;
+    padding: 1.5rem;
+  }
+  .crear-actions {
+    flex-direction: column-reverse; /* El botón principal queda abajo, más accesible */
+    gap: 0.5rem;
+  }
+  .crear-button, .crear-cancel-button {
+    width: 100%;
+  }
+}
+
+
+/**************************************************/
+/* --- ESTILOS PARA MODO OSCURO AUTOMÁTICO --- */
+/**************************************************/
+
+@media (prefers-color-scheme: dark) {
+
+  .crear-overlay {
+    background-color: rgba(10, 10, 20, 0.7);
+    backdrop-filter: blur(4px);
+  }
+
+  .crear-modal {
+    background: #1e293b;
+    border: 1px solid #334155;
+  }
+
+  .crear-modal h3 {
+    color: #f1f5f9;
+  }
+
+  .crear-input {
+    background-color: #0f172a;
+    color: #f1f5f9;
+    border-color: #334155;
+  }
+
+  .crear-input::placeholder {
+    color: #475569;
+  }
+
+  .crear-input:focus {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+  }
+
+  .crear-cancel-button {
+    background-color: #334155;
+    color: #cbd5e1;
+  }
+  .crear-cancel-button:hover {
+    background-color: #475569;
+  }
+
+}

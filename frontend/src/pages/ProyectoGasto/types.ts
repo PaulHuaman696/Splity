@@ -9,6 +9,7 @@ export interface ProyectoGasto {
   nombre: string;
   codigoUnico: string;
   fechaCreacion: string;
+  descripcion: string;
   participantes: Participante[];
   creadoPor: {
     uid: string;

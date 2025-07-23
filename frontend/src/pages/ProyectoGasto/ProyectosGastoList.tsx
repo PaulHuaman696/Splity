@@ -1,15 +1,23 @@
 import { useEffect, useState } from "react";
 import { authFetch } from "../../utils/authFetch";
-import UnirseProyectoModal from "../../components/UnirseProyectoModal";
-import ModalAgregarParticipantes from "../../components/ModalAgregarParticipantes";
-import ModalInvitaciones from "../../components/ModalInvitaciones";
-import AdministrarProyectoModal from "../../components/AdministrarProyectoModal/AdministrarProyectoModal";
+import UnirseProyectoModal from "../../components/Modal/UnirseProyectoModal/UnirseProyectoModal";
+import ModalAgregarParticipantes from "../../components/Modal/AgregarParticipantesModal/AgregarParticipantesModal";
+import ModalInvitaciones from "../../components/Modal/InvitacionesModal/ModalInvitaciones";
+import AdministrarProyectoModal from "../../components/Modal/AdministrarProyectoModal/AdministrarProyectoModal";
 import type { ProyectoGasto, Invitacion } from "./types";
 import "./ProyectosGastoList.css";
+
+// Pequeña función para obtener iniciales
+const getInitials = (name: string = "") => {
+  if (!name) return "?";
+  return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+};
 
 const ProyectosGastoList = () => {
   const [proyectos, setProyectos] = useState<ProyectoGasto[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
+
   const api_url = import.meta.env.VITE_API_URL;
 
   // Para modal Agregar Participantes
@@ -115,52 +123,84 @@ const ProyectosGastoList = () => {
     fetchProyectos();
   }, []);
 
+  const handleCopyCode = (codigo: string) => {
+    navigator.clipboard.writeText(codigo).then(() => {
+      setCopiedCode(codigo);
+      setTimeout(() => setCopiedCode(null), 2000); // El mensaje de "Copiado" desaparece después de 2s
+    });
+  };
+
   return (
-    <div className="proyectos-container">
-      <h2 className="proyectos-title">Proyectos de Gasto</h2>
-      <div style={{ marginBottom: "1rem" }}>
-        <button onClick={abrirModalInvitaciones} style={{ marginRight: 10 }}>
-          Ver Invitaciones
-        </button>
-        <button onClick={abrirModalUnirse}>Unirse a Proyecto</button>
+    <div className="page-container proyectos-page">
+      <div className="page-header">
+        <h2 className="page-title">Mis Proyectos</h2>
+        <div className="page-actions">
+          <button className="btn-secondary" onClick={abrirModalInvitaciones}>
+            Ver Invitaciones
+          </button>
+          <button className="btn-primary" onClick={abrirModalUnirse}>
+            Unirse a Proyecto
+          </button>
+        </div>
       </div>
+
       {loading ? (
-        <p>Cargando...</p>
+        <p className="loading-message">Cargando...</p>
       ) : proyectos.length === 0 ? (
-        <p>No tienes proyectos creados aún.</p>
+        <p className="empty-message">No tienes proyectos. ¡Crea uno para empezar!</p>
       ) : (
-        <table className="proyectos-table">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Código de invitación</th>
-              <th>Fecha de creación</th>
-              <th>Participantes</th>
-            </tr>
-          </thead>
-          <tbody>
-            {proyectos.map((proyecto) => (
-              <tr key={proyecto._id}>
-                <td>{proyecto.nombre}</td>
-                <td>{proyecto.codigoUnico}</td>
-                <td>{new Date(proyecto.fechaCreacion).toLocaleDateString()}</td>
-                <td>
-                  {proyecto.participantes.map((p, index) => (
-                    <div key={index}>
-                      {p.nombre} {p.aceptado ? "✅" : "⏳"}
+        <div className="proyectos-grid">
+          {proyectos.map((proyecto) => (
+            <div key={proyecto._id} className="proyecto-card">
+              <div className="proyecto-card-header">
+                <h3>{proyecto.nombre}</h3>
+                <button
+                  className="btn-icon"
+                  onClick={() => abrirModalAdministrarProyecto(proyecto)}
+                  aria-label="Administrar Proyecto"
+                >
+                  ⚙️
+                </button>
+              </div>
+
+              <div className="proyecto-card-body">
+                <p className="proyecto-descripcion">{proyecto.descripcion || "Sin descripción."}</p>
+                <div className="proyecto-meta">
+                  <span>Creado: {new Date(proyecto.fechaCreacion).toLocaleDateString()}</span>
+                </div>
+              </div>
+
+              <div className="proyecto-card-footer">
+                <div className="participantes-avatar-stack">
+                  {proyecto.participantes.slice(0, 4).map((p, index) => {
+                    // Lógica de seguridad para la key:
+                    // Usa el UID si existe, si no, usa el índice como último recurso.
+                    const key = p.uid || `avatar-index-${index}`;
+
+                    // Opcional: Advertencia para ayudarte a encontrar datos malos
+                    if (!p.uid) {
+                      console.warn('Participante sin UID encontrado en proyecto (vista de tarjeta):', proyecto.nombre);
+                    }
+
+                    return (
+                      <div key={key} className="avatar-circle" title={p.nombre}>
+                        {getInitials(p.nombre)}
+                      </div>
+                    );
+                  })}
+                  {proyecto.participantes.length > 4 && (
+                    <div className="avatar-circle more">
+                      +{proyecto.participantes.length - 4}
                     </div>
-                  ))}
-                </td>
-                <td>
-                  <button
-                    onClick={() => abrirModalAdministrarProyecto(proyecto)}>
-                    Administrar Proyecto
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  )}
+                </div>
+                <button className="btn-compartir" onClick={() => handleCopyCode(proyecto.codigoUnico)}>
+                  {copiedCode === proyecto.codigoUnico ? '¡Copiado!' : 'Compartir Código'}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
 
       {modalAdministrarVisible && proyectoSeleccionado && (

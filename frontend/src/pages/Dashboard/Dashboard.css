@@ -1,4 +1,44 @@
 /* Dashboard.css - Versión Final y Responsiva */
+:root {
+  /* Fondos */
+  --bg-color: #f9fafb;
+  --surface-color: #ffffff;
+  --surface-muted-color: #f3f4f6;
+
+  /* Texto */
+  --text-primary: #1f2937;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+
+  /* Bordes */
+  --border-color: #e5e7eb;
+  --border-muted-color: #f3f4f6;
+
+  /* Acentos y Acciones */
+  --accent-color: #3b82f6;
+  --accent-color-transparent: rgba(59, 130, 246, 0.2);
+  --success-color: #16a34a;
+  --danger-color: #dc2626;
+  --danger-color-transparent: rgba(220, 38, 38, 0.5);
+
+  /* --- NUEVAS VARIABLES PARA GRÁFICOS (MODO CLARO) --- */
+  --chart-text-color: #6b7280;
+  /* Color para leyendas y ejes */
+  --chart-grid-color: rgba(0, 0, 0, 0.1);
+  /* Color de las líneas de la rejilla */
+
+  /* Paleta de colores para los datos del gráfico */
+  --chart-color-1: #FF6384;
+  --chart-color-2: #36A2EB;
+  --chart-color-3: #FFCE56;
+  --chart-color-4: #4BC0C0;
+  --chart-color-5: #9966FF;
+  --chart-color-6: #FF9F40;
+}
+
+main {
+  background-color: var(--bg-color);
+}
 
 .dashboard-container {
   padding: 2rem;
@@ -26,7 +66,7 @@ canvas {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
-  color: #1f2937;
+  color: var(--text-primary);
 }
 
 .dashboard-grid {
@@ -36,10 +76,12 @@ canvas {
 }
 
 .dashboard-card {
-  background-color: #fff;
+  background-color: var(--surface-color);
+  color: var(--text-primary);
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
 }
@@ -49,14 +91,14 @@ canvas {
   font-weight: 600;
   margin-top: 0;
   margin-bottom: 1rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 0.75rem;
-  color: #1f2937;
+  color: var(--text-primary);
 }
 
 .dashboard-card h3 {
   font-size: 1.1rem;
-  color: #374151;
+  color: var(--text-secondary);
   border: none;
   padding-bottom: 0;
 }
@@ -65,6 +107,8 @@ canvas {
   font-size: 1.5rem;
   margin: 1.5rem 0 1rem;
   grid-column: 1 / -1;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .dashboard-card.full-width-card {
@@ -81,6 +125,7 @@ canvas {
   padding: 0;
   border: none;
   margin-top: 0;
+  background-color: transparent;
 }
 
 .saldos-card-title {
@@ -102,7 +147,7 @@ canvas {
 
 .saldo-item span {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--text-muted);
 }
 
 .saldo-item strong {
@@ -115,7 +160,7 @@ canvas {
 }
 
 .yo-debo strong {
-  color: #dc2626;
+  color: var(--danger-color);
 }
 
 .proyectos-list,
@@ -130,7 +175,7 @@ canvas {
   padding: 0.75rem 0.5rem;
   border-radius: 6px;
   text-decoration: none;
-  color: #3b82f6;
+  color: var(--accent-color);
   font-weight: 500;
   transition: background-color 0.2s;
 }
@@ -151,7 +196,7 @@ canvas {
   gap: 1rem;
   align-items: center;
   padding: 0.75rem 0.5rem;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--border-muted-color);
 }
 
 .gastos-list li:last-child {
@@ -166,7 +211,7 @@ canvas {
 
 .gasto-item {
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -174,8 +219,8 @@ canvas {
 
 .gasto-proyecto {
   font-size: 0.8rem;
-  color: #6b7280;
-  background-color: #f3f4f6;
+  color: var(--text-muted);
+  background-color: var(--surface-muted-color);
   padding: 2px 6px;
   border-radius: 4px;
 }
@@ -191,11 +236,11 @@ canvas {
   text-align: center;
   padding: 2rem;
   font-size: 1.2rem;
-  color: #6b7280;
+  color: var(--text-muted);
 }
 
 .error-text {
-  color: #dc2626;
+  color: var(--danger-color);
 }
 
 .dashboard-section-title {
@@ -225,7 +270,7 @@ canvas {
 
 .chart-message {
   text-align: center;
-  color: gray;
+  color: var(--text-muted);
   padding: 2rem;
   min-height: 200px;
   display: flex;
@@ -275,6 +320,10 @@ canvas {
   .gasto-por-categoria-container-grafico {
     width: max-content;
   }
+
+  .notificaciones-card {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 480px) {
@@ -311,22 +360,46 @@ canvas {
   }
 }
 
-@media (min-width: 1200px) {
-  .gastos-list li {
-    /* Volvemos al layout de 3 columnas que tenías */
-    grid-template-columns: 2fr 1fr 1fr; 
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Fondos */
+    --bg-color: #0f172a;
+    --surface-color: #1e293b;
+    --surface-muted-color: #283549;
+
+    /* Texto */
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+
+    /* Bordes */
+    --border-color: #334155;
+    --border-muted-color: #334155;
+
+    /* Acentos y Acciones */
+    --accent-color: #7dd3fc;
+    --accent-color-transparent: rgba(125, 211, 252, 0.2);
+    --success-color: #4ade80;
+    --danger-color: #f87171;
+    --danger-color-transparent: rgba(248, 113, 113, 0.3);
+    /* --- NUEVAS VARIABLES PARA GRÁFICOS (MODO OSCURO) --- */
+    --chart-text-color: #94a3b8;
+    /* Un gris claro para el texto */
+    --chart-grid-color: rgba(255, 255, 255, 0.1);
+    /* Líneas de la rejilla claras */
+
+    /* Paleta de colores más brillantes para modo oscuro */
+    --chart-color-1: #ff8a80;
+    --chart-color-2: #82b1ff;
+    --chart-color-3: #ffd740;
+    --chart-color-4: #64ffda;
+    --chart-color-5: #b388ff;
+    --chart-color-6: #ffab40;
   }
 
-  .gasto-info {
-    /* Ya no necesitamos que sea una columna */
-    display: contents; /* Hace que el div no afecte el layout del grid */
-  }
-
-  .gasto-proyecto {
-    /* Le devolvemos su estilo de "etiqueta" */
-    background-color: #f3f4f6;
-    padding: 2px 8px;
-    border-radius: 4px;
-    text-align: center;
+  .dashboard-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 }

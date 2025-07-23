@@ -6,6 +6,7 @@ import GastosPorCategoriaChart from '../../components/Graficos/GastosPorCategori
 import HistorialMensualChart from '../../components/Graficos/HistorialMensualChart';
 import TendenciaDiariaChart from '../../components/Graficos/TendenciaDiariaChart';
 import TopGastosChart from '../../components/Graficos/TopGastosChart';
+import Notificaciones from '../../components/Notificaciones/Notificaciones'; 
 import "./Dashboard.css";
 
 // Definimos los tipos de datos que vamos a recibir
@@ -114,6 +115,11 @@ const Dashboard = () => {
               </li>
             )) : <p>No tienes gastos recientes.</p>}
           </ul>
+        </div>
+
+        <div className="dashboard-card notificaciones-card">
+          <h2 className="saldos-card-title">Acciones Pendientes</h2>
+          <Notificaciones />
         </div>
 
         {/* --- TÍTULO DE LA NUEVA SECCIÓN --- */}

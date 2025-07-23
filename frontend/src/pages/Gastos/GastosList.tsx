@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { authFetch } from "../../utils/authFetch";
-import EditGastoModal from "../../components/EditGastoModal/EditGastoModal";
-import ConfirmDeleteModal from "../../components/ConfirmDeleteModal/ConfirmDeleteModal";
+import EditGastoModal from "../../components/Modal/EditGastoModal/EditGastoModal";
+import ConfirmDeleteModal from "../../components/Modal/ConfirmDeleteModal/ConfirmDeleteModal";
 import "./GastosList.css";
 import { filtrarYGastosOrdenados } from "../../utils/filtrarGastos";
 import type { Categoria, Gasto } from "../../types/Gasto";
@@ -174,21 +174,21 @@ const GastosList = () => {
               ordenAlfabetico,
             }).map((gasto) => (
               <tr key={gasto._id} className="gastos-tr">
-                <td className="gastos-td">
+                <td data-label="Proyecto" className="gastos-td">
                   {gasto.proyectoId?.nombre || "Sin proyecto"}
                 </td>
-                <td className="gastos-td">
+                <td data-label="Tipo" className="gastos-td">
                   {capitalizeFirstLetter(gasto.tipo) || "N/A"}
                 </td>
-                <td className="gastos-td">
+                <td data-label="Categoría" className="gastos-td">
                   {gasto.itemId?.categoria.nombre || "Sin categoría"}
                 </td>
-                <td className="gastos-td">
+                <td data-label="Item" className="gastos-td">
                   {gasto.itemId?.nombre || "Sin item"}
                 </td>
-                <td className="gastos-td">S/ {gasto.monto.toFixed(2)}</td>
-                <td className="gastos-td">{gasto.descripcion}</td>
-                <td className="gastos-td">
+                <td data-label="Monto" className="gastos-td">S/ {gasto.monto.toFixed(2)}</td>
+                <td data-label="Descripción" className="gastos-td">{gasto.descripcion}</td>
+                <td data-label="Fecha" className="gastos-td">
                   {(() => {
                     const fecha = new Date(gasto.fecha);
                     fecha.setDate(fecha.getDate() + 1); // Sumar un día
@@ -200,7 +200,7 @@ const GastosList = () => {
                     });
                   })()}
                 </td>
-                <td className="gastos-td">
+                <td data-label="Acciones" className="gastos-td">
                   <div className="gastos-acciones">
                     <button
                       className="gastos-boton"

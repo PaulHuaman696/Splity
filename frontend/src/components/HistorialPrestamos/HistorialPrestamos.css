@@ -1,0 +1,151 @@
+/* En tu :root (modo claro) */
+:root {
+  /* ... tus otras variables ... */
+  --success-bg-subtle: rgba(34, 197, 94, 0.05);  /* NUEVA */
+  --danger-bg-subtle: rgba(239, 68, 68, 0.05);   /* NUEVA */
+  --accent-bg-subtle: #dbeafe;                  /* NUEVA */
+  --activo-text-color: #2563eb;
+}
+
+.historial-prestamos-container {
+    background-color: var(--surface-color, #fff);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.prestamos-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.btn-pagar-prestamo {
+    background-color: var(--accent-color, #3b82f6);
+    color: var(--text-on-primary, white);
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.prestamos-table th,
+.prestamos-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
+    text-align: left;
+    color: var(--text-primary);
+}
+
+.prestamos-table th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--text-muted, #6b7280);
+}
+
+.prestamos-table tbody tr.dado {
+    background-color: var(--danger-bg-subtle)
+}
+
+.prestamos-table tbody tr.recibido {
+    background-color: var(--success-bg-subtle);
+}
+
+.tipo-pill,
+.estado-pill {
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.tipo-pill {
+    background-color: var(--surface-muted-color, #e5e7eb);
+    color: var(--text-secondary, #374151);
+}
+
+.estado-pill {
+    text-transform: capitalize;
+}
+
+.estado-activo {
+    background-color: var(--accent-bg-subtle, #dbeafe);
+    color: var(--activo-text-color);
+}
+
+.estado-devuelto {
+    background-color: var(--success-bg, #dcfce7);
+    color: var(--success-color, #16a34a);
+}
+
+.prestamos-mensaje {
+    text-align: center;
+    color: var(--text-muted, #6b7280);
+    padding: 2rem;
+}
+
+.mi-tag {
+  font-weight: 600;
+  color: var(--accent-color, #3b82f6);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+
+  /* 1. Ocultamos la cabecera original de la tabla */
+  .prestamos-table thead {
+    display: none;
+  }
+
+  /* 2. Hacemos que cada fila se comporte como un bloque (tarjeta) */
+  .prestamos-table tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color, #e5e7eb);
+    padding: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  /* 3. Las celdas se apilan y se muestran como filas de 'etiqueta: valor' */
+  .prestamos-table td {
+    display: flex;
+    justify-content: space-between; /* Etiqueta a la izquierda, valor a la derecha */
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px dashed var(--border-color, #e5e7eb);
+    text-align: right;
+  }
+  
+  .prestamos-table tr td:last-child {
+    border-bottom: none; /* La última "fila" no necesita borde */
+  }
+
+  /* 4. Usamos el 'data-label' para crear la etiqueta de la columna */
+  .prestamos-table td::before {
+    content: attr(data-label); /* <- Aquí usamos el atributo que añadimos en el JSX */
+    font-weight: 600;
+    text-align: left;
+    color: var(--text-secondary, #374151);
+    padding-right: 1rem; /* Espacio entre la etiqueta y el valor */
+  }
+
+  /* 5. Aseguramos que la celda de acciones se vea bien */
+  .prestamos-table td[data-label="Acciones"] {
+    /* Si no hay botón, la celda no debería ocupar espacio */
+    min-height: 40px; 
+  }
+}
+
+/* En tu @media (prefers-color-scheme: dark) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* ... tus otras variables de modo oscuro ... */
+    --success-bg-subtle: rgba(74, 222, 128, 0.1);  /* NUEVA */
+    --danger-bg-subtle: rgba(248, 113, 113, 0.1);   /* NUEVA */
+    --accent-bg-subtle: #2563eb;                  /* NUEVA */
+    --activo-text-color: white;
+  }
+}

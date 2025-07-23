@@ -1,5 +1,5 @@
 // src/components/ConfirmDeleteModal.tsx
-import { authFetch } from "../../utils/authFetch";
+import { authFetch } from "../../../utils/authFetch";
 import "./ConfirmDeleteModal.css";
 
 interface Props {

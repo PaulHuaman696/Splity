@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import CrearCategoriaModal from "../../components/CrearCategoriaModal/CrearCategoriaModal";
+import CrearCategoriaModal from "../../components/Modal/CrearCategoriaModal/CrearCategoriaModal";
 import { authFetch } from "../../utils/authFetch";
-import CrearItemModal from "../../components/CrearItemModal/CrearItemModal";
+import CrearItemModal from "../../components/Modal/CrearItemModal/CrearItemModal";
 import "./GastoForm.css";
 
 const GastoForm = () => {

@@ -8,10 +8,14 @@ function Login() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [error, setError] = useState("");
+  const [cargando, setCargando] = useState(false);
   const navigate = useNavigate();
   const api_url = import.meta.env.VITE_API_URL;
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault(); // Usamos el evento del form
+    setCargando(true);
+    setError("");
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -41,7 +45,10 @@ function Login() {
 
       navigate("/home");
     } catch (err) {
-      setError((err as Error).message);
+      setError("Correo o contraseña incorrectos. Por favor, inténtalo de nuevo.");
+      console.error(err);
+    } finally {
+      setCargando(false);
     }
   };
 
@@ -51,33 +58,52 @@ function Login() {
         <div className="login-left">
           <h1 className="login-brand">Splity</h1>
           <p className="login-slogan">
-            Organiza tus finanzas compartidas fácilmente.
+            Organiza tus finanzas compartidas de forma simple y elegante.
           </p>
         </div>
         <div className="login-right">
-          <h2 className="login-title">Iniciar Sesión</h2>
-          <input
-            type="email"
-            placeholder="Correo"
-            onChange={(e) => setEmail(e.target.value)}
-            className="login-input"
-          />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            onChange={(e) => setPass(e.target.value)}
-            className="login-input"
-          />
-          {error && <p className="login-error">{error}</p>}
-          <button onClick={handleLogin} className="login-button">
-            Iniciar sesión
-          </button>
-          <p className="login-register-text">
-            ¿No tienes una cuenta?{" "}
-            <Link to="/register" className="login-link">
-              Regístrate
-            </Link>
-          </p>
+          <form onSubmit={handleLogin}>
+            <h2 className="login-title">Iniciar Sesión</h2>
+
+            <div className="login-form-group">
+              <label htmlFor="email" className="visually-hidden">Correo Electrónico</label>
+              <input
+                id="email"
+                type="email"
+                placeholder="Correo"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="login-input"
+              />
+            </div>
+
+            <div className="login-form-group">
+              <label htmlFor="password" className="visually-hidden">Contraseña</label>
+              <input
+                id="password"
+                type="password"
+                placeholder="Contraseña"
+                value={pass}
+                onChange={(e) => setPass(e.target.value)}
+                required
+                className="login-input"
+              />
+            </div>
+
+            {error && <p className="login-error">{error}</p>}
+
+            <button type="submit" className="login-button" disabled={cargando}>
+              {cargando ? "Ingresando..." : "Iniciar sesión"}
+            </button>
+
+            <p className="login-register-text">
+              ¿No tienes una cuenta?{" "}
+              <Link to="/register" className="login-link">
+                Regístrate
+              </Link>
+            </p>
+          </form>
         </div>
       </div>
     </div>

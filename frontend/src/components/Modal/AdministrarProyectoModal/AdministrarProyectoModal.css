@@ -1,0 +1,139 @@
+/* AdministrarProyectoModal.css - Diseño profesional y adaptable */
+
+.admin-modal-overlay {
+    position: fixed; inset: 0;
+    background-color: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+    animation: fadeIn 0.2s ease;
+}
+
+.admin-modal-content {
+    background: var(--surface-color, #fff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    padding: 0; /* Quitamos padding para darlo a las secciones internas */
+    border-radius: 12px;
+    width: 100%;
+    max-width: 700px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    animation: slideIn 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh; /* Límite de altura */
+}
+
+.admin-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
+    flex-shrink: 0; /* Evita que se encoja */
+}
+.admin-modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary, #1f2937);
+    margin: 0;
+}
+
+.admin-modal-body {
+    padding: 1.5rem;
+    overflow-y: auto; /* Solo el cuerpo del modal tiene scroll */
+}
+
+.modal-section {
+    margin-bottom: 2rem;
+}
+.modal-section:last-child {
+    margin-bottom: 0;
+}
+.modal-section h3 { font-size: 1.5rem; margin: 0 0 0.5rem; color: var(--text-primary); }
+.modal-section .proyecto-descripcion { font-size: 1rem; color: var(--text-secondary); margin-bottom: 1.5rem; }
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    font-size: 0.9rem;
+}
+.details-grid div { display: flex; flex-direction: column; }
+.details-grid span { color: var(--text-muted); }
+.details-grid strong { color: var(--text-primary); font-weight: 500; }
+
+.codigo-container { flex-direction: row !important; align-items: center; gap: 0.5rem; }
+.codigo-container button { background: none; border: none; cursor: pointer; font-size: 1.1rem; }
+
+.participantes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.participantes-header h4 { font-size: 1.1rem; margin: 0; color: var(--text-primary); }
+
+.table-wrapper {
+    overflow-x: auto; /* Hacemos que la tabla tenga scroll horizontal solo si es necesario */
+}
+.participantes-table { width: 100%; border-collapse: collapse; }
+.participantes-table th, .participantes-table td { padding: 0.75rem; border-bottom: 1px solid var(--border-color, #e5e7eb); text-align: left; }
+.participantes-table th { font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); }
+
+/* Botones con clases genéricas */
+.btn-primary-small { background-color: var(--primary-color); color: var(--text-on-primary); /* ...otros estilos de botón */ }
+.btn-danger-small { background-color: var(--danger-color); color: var(--text-on-primary); /* ...otros estilos de botón */ }
+.btn-primary-small, .btn-danger-small { border: none; padding: 0.4rem 0.8rem; border-radius: 6px; font-weight: 600; cursor: pointer; }
+.btn-danger-small:disabled { opacity: 0.6; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.danger-zone {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px dashed var(--danger-color, #dc2626);
+}
+
+.danger-zone h4 {
+  color: var(--danger-color, #dc2626);
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.danger-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.danger-action p {
+  color: var(--text-secondary, #374151);
+  font-size: 0.9rem;
+  flex-basis: 300px; /* Permite que el texto se ajuste */
+  flex-grow: 1;
+  margin: 0;
+}
+
+.btn-danger {
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: var(--danger-color, #dc2626);
+  color: var(--text-on-primary, #fff);
+  transition: background-color 0.2s;
+}
+.btn-danger:hover {
+  filter: brightness(1.1);
+}
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

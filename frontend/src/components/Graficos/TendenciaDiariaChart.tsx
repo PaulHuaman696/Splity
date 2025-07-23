@@ -31,60 +31,83 @@ interface TendenciaData {
 }
 
 const TendenciaDiariaChart = () => {
-    const [chartData, setChartData] = useState<any>({
-        labels: [],
-        datasets: [],
-    });
+    const [chartConfig, setChartConfig] = useState<any>(null);
     const [error, setError] = useState('');
     const api_url = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
-        authFetch(`${api_url}/api/reportes/tendencia-diaria`)
-            .then((data: TendenciaData) => {
-                if (!data || data.labels.length === 0) {
+        const cargarYConfigurarGrafico = async () => {
+            try {
+                // 1. Pedimos los datos a la API
+                const apiData: TendenciaData = await authFetch(`${api_url}/api/reportes/tendencia-diaria`);
+
+                if (!apiData || apiData.labels.length === 0) {
                     setError('No hay datos de tendencia para mostrar.');
                     return;
                 }
 
-                const chartConfig = {
-                    labels: data.labels,
+                // 2. Leemos los colores del tema actual DESPUÉS de tener los datos
+                const textColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-text-color').trim();
+                const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-grid-color').trim();
+                const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
+                const accentColorTransparent = getComputedStyle(document.documentElement).getPropertyValue('--accent-color-transparent').trim();
+
+                // 3. Construimos el objeto de datos del gráfico con los colores del tema
+                const data = {
+                    labels: apiData.labels,
                     datasets: [
                         {
-                            fill: true, // Rellenar el área bajo la línea
+                            fill: true,
                             label: 'Gastos Diarios',
-                            data: data.data,
-                            borderColor: 'rgb(53, 162, 235)',
-                            backgroundColor: 'rgba(53, 162, 235, 0.2)',
-                            tension: 0.4, // Hace la línea curva y suave
+                            data: apiData.data,
+                            borderColor: accentColor,
+                            backgroundColor: accentColorTransparent,
+                            tension: 0.4,
+                            pointRadius: 3,
+                            pointBackgroundColor: accentColor,
                         },
                     ],
                 };
-                setChartData(chartConfig);
-            })
-            .catch(() => setError('No se pudo cargar el gráfico de tendencia.'));
+
+                // 4. Construimos el objeto de opciones del gráfico con los colores del tema
+                const options = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: textColor }, // Color dinámico
+                            grid: { color: gridColor },   // Color dinámico
+                        },
+                        x: {
+                            ticks: { color: textColor }, // Color dinámico
+                            grid: { display: false },
+                        },
+                    },
+                };
+
+                // 5. Guardamos toda la configuración en el estado UNA SOLA VEZ
+                setChartConfig({ data, options });
+
+            } catch (err) {
+                setError('No se pudo cargar el gráfico de tendencia.');
+                console.error(err);
+            }
+        };
+
+        cargarYConfigurarGrafico();
     }, [api_url]);
 
-    const options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false, // No necesitamos leyenda para una sola línea
-            },
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-            },
-        },
-    };
-
+    // Lógica de renderizado
     if (error) return <p className="chart-message">{error}</p>;
-    if (chartData.labels.length === 0) return <p className="chart-message">Cargando tendencia...</p>;
+    if (!chartConfig) return <p className="chart-message">Cargando tendencia...</p>;
 
     return (
         <div className="chart-wrapper">
-            <Line options={options} data={chartData} />
+            <Line options={chartConfig.options} data={chartConfig.data} />
         </div>
     );
 };

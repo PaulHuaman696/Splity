@@ -91,3 +91,56 @@
     font-size: 16px;
   }
 }
+
+/**************************************************/
+/* --- ESTILOS PARA MODO OSCURO AUTOMÁTICO --- */
+/**************************************************/
+
+@media (prefers-color-scheme: dark) {
+
+  /* Fondo semi-transparente del overlay */
+  .confirm-overlay {
+    background-color: rgba(10, 10, 20, 0.7);
+    backdrop-filter: blur(4px); /* Efecto de desenfoque opcional */
+  }
+
+  /* Contenido principal del modal */
+  .confirm-modal {
+    background: #1e293b; /* Fondo de tarjeta oscuro (azul pizarra) */
+    border: 1px solid #334155;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Título de la alerta (rojo brillante) */
+  .confirm-title {
+    color: #f87171;
+  }
+
+  /* Mensaje del modal (texto claro) */
+  .confirm-message {
+    color: #cbd5e1; /* Un gris claro para el texto del cuerpo */
+  }
+
+  /* --- Botones en Modo Oscuro --- */
+
+  /* Botón de Cancelar/Secundario */
+  .confirm-cancel {
+    background-color: #334155; /* Un gris oscuro sutil */
+    color: #f1f5f9;
+  }
+
+  .confirm-cancel:hover {
+    background-color: #475569;
+    color: #f1f5f9;
+  }
+
+  /* Botón de Eliminar/Principal */
+  .confirm-delete {
+    background-color: #ef4444; /* Un rojo un poco más vibrante */
+    color: #fff;
+  }
+
+  .confirm-delete:hover {
+    background-color: #dc2626;
+  }
+}

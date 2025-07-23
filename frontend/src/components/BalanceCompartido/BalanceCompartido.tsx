@@ -1,127 +1,211 @@
 import React, { useEffect, useState } from "react";
 import { authFetch } from "../../utils/authFetch";
 import "./BalanceCompartido.css";
+import { jwtDecode } from 'jwt-decode';
 
-// (CORRECCIÓN) Actualiza la interfaz para incluir el nombre
+// --- (Interfaces no cambian) ---
 interface Saldo {
   usuarioUid: string;
-  nombre: string; // <-- Añadido
+  nombre: string;
   totalAporte: number;
   saldo: number;
 }
-
 interface BalanceCompartidoData {
   promedio: number;
   sumaTotal: number;
   participantes: number;
   saldos: Saldo[];
 }
-
 interface Props {
   proyectoId: string;
+}
+interface PagoTarget {
+  uid: string;
+  nombre: string;
 }
 
 const api_url = import.meta.env.VITE_API_URL;
 
-// Pequeña función para obtener iniciales para los avatares
-const getInitials = (name: string) => {
-  if (!name) return "?";
-  const names = name.split(' ');
-  const initials = names.map(n => n[0]).join('');
-  return initials.slice(0, 2).toUpperCase();
-};
-
 const BalanceCompartido: React.FC<Props> = ({ proyectoId }) => {
   const [data, setData] = useState<BalanceCompartidoData | null>(null);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState("");
+  const [currentUserUid, setCurrentUserUid] = useState<string | null>(null);
 
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pagoTarget, setPagoTarget] = useState<PagoTarget | null>(null);
+  const [montoPago, setMontoPago] = useState("");
+  const [pagoEnviando, setPagoEnviando] = useState(false);
 
   useEffect(() => {
-    if (!proyectoId) return;
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        // Intentamos obtener el UID del token
+        const uidFromToken = (decodedToken as any).uid || (decodedToken as any).sub;
+        if (uidFromToken) {
+          setCurrentUserUid(uidFromToken);
+        } else {
+          setError("Error de sesión: El formato del token es incorrecto.");
+        }
+      } catch (e) {
+        setError("Error de sesión: El token es inválido o ha expirado.");
+      }
+    } else {
+      setError("Error de sesión: No se encontró token.");
+    }
+
+  }, []);
+
+  useEffect(() => {
+    if (!proyectoId) {
+
+      return;
+    }
 
     authFetch(`${api_url}/api/reportes/compartido/${proyectoId}`)
-      .then((response) => {
-        // Si la respuesta tiene 'mensaje', es un error controlado por el backend
-        if (response.mensaje) {
-          setError(response.mensaje);
+      .then(apiResponse => {
+
+
+        // Verificamos si la respuesta es válida antes de establecerla
+        if (apiResponse && apiResponse.saldos) {
+          setData(apiResponse);
         } else {
-          setData(response);
-          setError(""); // Limpiar errores previos si la llamada es exitosa
+
+          setError("No se pudieron obtener los datos del balance para este proyecto.");
         }
       })
       .catch((err) => {
-        setError(err.message || "Error al cargar el balance");
-      });
-  }, [proyectoId, api_url]);
 
-  // 2. USA LAS NUEVAS CLASES PARA LOS MENSAJES
+        setError(err.message || "Error al cargar balance")
+      });
+
+  }, [proyectoId]);
+
+  const abrirModalPago = (target: PagoTarget) => {
+    setPagoTarget(target);
+    setIsModalOpen(true);
+  };
+
+  const cerrarModalPago = () => {
+    setIsModalOpen(false);
+    setPagoTarget(null);
+    setMontoPago("");
+  };
+
+  const handleRegistrarPago = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!pagoTarget || !montoPago || parseFloat(montoPago) <= 0) {
+      alert("Por favor, introduce un monto válido.");
+      return;
+    }
+    setPagoEnviando(true);
+    try {
+      await authFetch(`${api_url}/api/pagos`, {
+        method: 'POST',
+        body: JSON.stringify({
+          monto: parseFloat(montoPago),
+          a_usuario: pagoTarget.uid,
+          proyectoId: proyectoId,
+        }),
+      });
+      alert(`Registro de pago a ${pagoTarget.nombre} enviado para confirmación.`);
+      cerrarModalPago();
+    } catch (err) {
+      alert("Error al registrar el pago. Inténtalo de nuevo.");
+    } finally {
+      setPagoEnviando(false);
+    }
+  };
+
   if (error) return <p className="balance-error-text">{error}</p>;
-  if (!data) return <p className="balance-info-text">Cargando balance compartido...</p>;
+  if (!data || !currentUserUid) return <p className="balance-info-text">Cargando datos de balance...</p>;
+
+
+
+  // --- LÓGICA DE NEGOCIO MEJORADA ---
+  // 1. Encontrar el saldo del usuario actual.
+  const miSaldo = data.saldos.find(s => s.usuarioUid === currentUserUid);
+
+
+  // 2. Determinar si el usuario actual es un deudor.
+  const soyDeudor = miSaldo ? miSaldo.saldo < 0 : false;
+
 
   return (
-    <div className="balance-container">
-      <h2 className="balance-title">
-        {/* Icono para el título */}
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m10 8 4 4-4 4"></path></svg>
-        Balance Compartido
-      </h2>
+    <>
+      <div className="balance-container">
+        <h2 className="balance-title">Balance de Proyecto</h2>
+        {/* ... (JSX de resumen) ... */}
 
-      {/* --- Tarjetas de Resumen --- */}
-      <div className="balance-summary">
-        <div className="summary-card">
-          <span className="summary-card-label">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-            Participantes
-          </span>
-          <span className="summary-card-value">{data.participantes}</span>
-        </div>
-        <div className="summary-card">
-          <span className="summary-card-label">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-            Total Gastado
-          </span>
-          <span className="summary-card-value">S/.{data.sumaTotal.toFixed(2)}</span>
-        </div>
-        <div className="summary-card">
-          <span className="summary-card-label">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" x2="19" y1="8"></line><line x1="19" x2="19" y1="14"></line><line x1="16" x2="22" y1="11"></line></svg>
-            Promedio
-          </span>
-          <span className="summary-card-value">S/.{data.promedio.toFixed(2)}</span>
-        </div>
+        <table className="balance-table">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Aporte Total</th>
+              <th>Saldo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.saldos.map((saldo) => (
+              // Estructura limpia para evitar el error de whitespace
+              <tr key={saldo.usuarioUid}>
+                <td data-label="Usuario" className="user-cell">{saldo.nombre}</td>
+                <td data-label="Aporte Total">S/.{saldo.totalAporte.toFixed(2)}</td>
+                <td data-label="Saldo">
+                  <span className={`saldo-pill ${saldo.saldo < 0 ? "saldo-negativo" : "saldo-positivo"}`}>
+                    {saldo.saldo >= 0 ? '+' : ''}S/.{saldo.saldo.toFixed(2)}
+                  </span>
+                </td>
+                <td data-label="Acciones" className="acciones-cell">
+                  {/* --- LÓGICA DEL BOTÓN CORREGIDA ---
+                      El botón solo aparece si:
+                      1. Yo soy deudor (mi saldo es negativo).
+                      2. La fila actual es de un acreedor (su saldo es positivo).
+                  */}
+                  {soyDeudor && saldo.saldo > 0 && (
+                    <button
+                      onClick={() => abrirModalPago({ uid: saldo.usuarioUid, nombre: saldo.nombre })}
+                      className="btn-pagar"
+                    >
+                      Pagar
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      {/* --- Tabla de Saldos --- */}
-      <table className="balance-table">
-        <thead>
-          <tr>
-            <th>Usuario</th>
-            <th>Aporte Total</th>
-            <th>Saldo</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.saldos.map((saldo) => (
-            <tr key={saldo.usuarioUid}>
-              {/* 👇 AÑADE ESTE data-label */}
-              <td data-label="Usuario" className="user-cell">
-                <span className="user-avatar">{getInitials(saldo.nombre)}</span>
-                {saldo.nombre}
-              </td>
-              {/* 👇 AÑADE ESTE data-label */}
-              <td data-label="Aporte Total">S/.{saldo.totalAporte.toFixed(2)}</td>
-              {/* 👇 AÑADE ESTE data-label */}
-              <td data-label="Saldo">
-                <span className={`saldo-pill ${saldo.saldo < 0 ? "saldo-negativo" : "saldo-positivo"}`}>
-                  {saldo.saldo >= 0 ? '+' : ''}S/.{saldo.saldo.toFixed(2)}
-                </span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+      {/* --- El Modal (sin cambios) --- */}
+      {isModalOpen && (
+        <div className="modal-backdrop">
+          <div className="modal-content">
+            <h3>Registrar Pago a {pagoTarget?.nombre}</h3>
+            <form onSubmit={handleRegistrarPago}>
+              <label htmlFor="monto">Monto a pagar (S/.)</label>
+              <input
+                type="number"
+                id="monto"
+                value={montoPago}
+                onChange={(e) => setMontoPago(e.target.value)}
+                placeholder="Ej: 50.00"
+                step="0.01"
+                required
+              />
+              <div className="modal-acciones">
+                <button type="button" onClick={cerrarModalPago} className="btn-cancelar">Cancelar</button>
+                <button type="submit" className="btn-confirmar" disabled={pagoEnviando}>
+                  {pagoEnviando ? 'Enviando...' : 'Registrar Pago'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

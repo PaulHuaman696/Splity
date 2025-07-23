@@ -109,3 +109,66 @@
         font-size: 14px;
     }
 }
+
+/**************************************************/
+/* --- ESTILOS PARA MODO OSCURO AUTOMÁTICO --- */
+/**************************************************/
+
+@media (prefers-color-scheme: dark) {
+
+  /* Fondo semi-transparente del overlay */
+  .modal-overlay {
+    background-color: rgba(10, 10, 20, 0.7);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Contenido principal del modal */
+  .modal-container {
+    background: #1e293b; /* Fondo de tarjeta oscuro (azul pizarra) */
+    border: 1px solid #334155;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Título del modal */
+  .modal-title {
+    color: #f1f5f9; /* Texto principal claro */
+  }
+
+  /* Etiquetas de los campos */
+  .label {
+    color: #cbd5e1; /* Un gris claro para las etiquetas */
+  }
+
+  /* Campos de entrada (input) */
+  .input {
+    background-color: #0f172a;
+    color: #f1f5f9;
+    border-color: #334155;
+  }
+  
+  .input::placeholder { /* Si usas placeholders */
+      color: #475569;
+  }
+
+  .input:focus {
+    border-color: #818cf8; /* Un acento más brillante al seleccionar */
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+  }
+
+  /* --- Botones en Modo Oscuro --- */
+
+  /* Botón de Cancelar */
+  .cancel-button {
+    background-color: #334155; /* Gris oscuro sutil */
+    color: #cbd5e1;
+  }
+
+  .cancel-button:hover {
+    background-color: #475569;
+  }
+
+  /* El botón de 'submit' ya tiene buen contraste, solo ajustamos el hover */
+  .submit-button:hover {
+    background-color: #6366f1;
+  }
+}

@@ -128,3 +128,49 @@
     flex-wrap: wrap;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  
+  /* Contenedor principal del formulario */
+  .gasto-container {
+    background: #1e293b; /* Fondo de tarjeta oscuro (azul pizarra) */
+    border: 1px solid #334155; /* Borde sutil oscuro */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Título del formulario */
+  .gasto-title {
+    color: #f1f5f9; /* Texto claro */
+    border-bottom-color: #818cf8; /* Un color de acento un poco más brillante */
+  }
+
+  /* Etiquetas de los campos */
+  .gasto-label {
+    color: #94a3b8; /* Texto secundario claro */
+  }
+
+  /* Campos de entrada (input, select, etc.) */
+  .gasto-input {
+    background-color: #0f172a; /* Fondo más oscuro que la tarjeta */
+    color: #f1f5f9; /* Texto de entrada claro */
+    border-color: #334155; /* Borde oscuro */
+  }
+
+  /* Placeholder (texto de ejemplo) dentro de los inputs */
+  .gasto-input::placeholder {
+    color: #475569;
+  }
+
+  /* Estilo del input cuando está seleccionado */
+  .gasto-input:focus {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.3);
+  }
+
+  /* Los botones principales ya tienen buen contraste, no necesitan grandes cambios.
+     Podríamos ajustar su hover para que sea más notorio. */
+  .gasto-button:hover,
+  .gasto-add-button:hover {
+    background-color: #6366f1;
+  }
+}

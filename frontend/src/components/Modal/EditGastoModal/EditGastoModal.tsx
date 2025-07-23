@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { authFetch } from "../../utils/authFetch";
+import { authFetch } from "../../../utils/authFetch";
 import "./EditGastoModal.css"; // Importamos el archivo CSS
 
 interface Props {
@@ -108,7 +108,14 @@ export default function EditGastoModal({ gasto, onClose, onSaved }: Props) {
   return (
     <div className="backdrop">
       <div className="modal">
-        <h3 className="title">Editar Gasto</h3>
+        <div className="modal-header">
+          <h3 className="title">Editar Gasto</h3>
+          <button type="button" className="close-icon" onClick={onClose} aria-label="Cerrar modal">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
         <div className="form-container">
           <form onSubmit={handleSubmit}>
             <div className="form-group-row">
@@ -236,9 +243,7 @@ export default function EditGastoModal({ gasto, onClose, onSaved }: Props) {
             </div>
           </form>
         </div>
-        <span className="close-icon" onClick={onClose}>
-          ×
-        </span>
+
       </div>
     </div>
   );

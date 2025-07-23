@@ -9,6 +9,7 @@ const Sidebar = ({ isOpen, closeSidebar }: SidebarProps) => {
   const [gastosOpen, setGastosOpen] = useState(false);
   const [ingresosOpen, setIngresosOpen] = useState(false);
   const [proyectosOpen, setProyectosOpen] = useState(false);
+  const [prestamosOpen, setPrestamosOpen] = useState(false);
   const location = useLocation();
 
   // Detecta si la ruta actual es parte del módulo de gastos
@@ -17,6 +18,7 @@ const Sidebar = ({ isOpen, closeSidebar }: SidebarProps) => {
   const isIngresoPath = location.pathname.startsWith("/ingresos");
   // Detecta si la ruta actual es parte del módulo de gastos
   const isProyectoPath = location.pathname.startsWith("/proyectos-gastos");
+  const isPrestamoPath = location.pathname.startsWith("/prestamos");
   // Cierra el sidebar al hacer click en un enlace (opcional)
   const handleLinkClick = () => {
     if (window.innerWidth < 768) closeSidebar();
@@ -36,9 +38,8 @@ const Sidebar = ({ isOpen, closeSidebar }: SidebarProps) => {
         <li className="sidebar-item">
           <div
             onClick={() => setIngresosOpen(!ingresosOpen)}
-            className={`sidebar-link sidebar-toggle ${
-              isIngresoPath ? "active" : ""
-            }`}>
+            className={`sidebar-link sidebar-toggle ${isIngresoPath ? "active" : ""
+              }`}>
             Ingresos {ingresosOpen ? "▲" : "▼"}
           </div>
           {ingresosOpen && (
@@ -70,9 +71,8 @@ const Sidebar = ({ isOpen, closeSidebar }: SidebarProps) => {
         <li className="sidebar-item">
           <div
             onClick={() => setGastosOpen(!gastosOpen)}
-            className={`sidebar-link sidebar-toggle ${
-              isGastoPath ? "active" : ""
-            }`}>
+            className={`sidebar-link sidebar-toggle ${isGastoPath ? "active" : ""
+              }`}>
             Gastos {gastosOpen ? "▲" : "▼"}
           </div>
           {gastosOpen && (
@@ -104,9 +104,8 @@ const Sidebar = ({ isOpen, closeSidebar }: SidebarProps) => {
         <li className="sidebar-item">
           <div
             onClick={() => setProyectosOpen(!proyectosOpen)}
-            className={`sidebar-link sidebar-toggle ${
-              isProyectoPath ? "active" : ""
-            }`}>
+            className={`sidebar-link sidebar-toggle ${isProyectoPath ? "active" : ""
+              }`}>
             Proyectos {proyectosOpen ? "▲" : "▼"}
           </div>
           {proyectosOpen && (
@@ -134,7 +133,39 @@ const Sidebar = ({ isOpen, closeSidebar }: SidebarProps) => {
             </ul>
           )}
         </li>
-
+        
+        <li className="sidebar-item">
+          <div
+            onClick={() => setPrestamosOpen(!prestamosOpen)}
+            className={`sidebar-link sidebar-toggle ${isPrestamoPath ? "active" : ""
+              }`}>
+            Prestamos {prestamosOpen ? "▲" : "▼"}
+          </div>
+          {prestamosOpen && (
+            <ul className="sidebar-sublist">
+              <li>
+                <NavLink
+                  to="/prestamos/nuevo"
+                  className={({ isActive }) =>
+                    isActive ? "sidebar-sublink active-sub" : "sidebar-sublink"
+                  }
+                  onClick={handleLinkClick}>
+                  Registrar Préstamo
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/prestamos/historial"
+                  className={({ isActive }) =>
+                    isActive ? "sidebar-sublink active-sub" : "sidebar-sublink"
+                  }
+                  onClick={handleLinkClick}>
+                  Historial de Préstamos
+                </NavLink>
+              </li>
+            </ul>
+          )}
+        </li>
         <NavLink
           to="/reportes"
           className={({ isActive }) =>
