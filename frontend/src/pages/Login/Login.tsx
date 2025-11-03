@@ -38,7 +38,7 @@ function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: user.displayName || "", // por si no tiene displayName
+          name: user.displayName || "", // por si no tiene displayName    
           email: user.email || "",
         }),
       });
