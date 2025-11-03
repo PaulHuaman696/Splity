@@ -14,7 +14,7 @@ function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault(); // Usamos el evento del form
-    setCargando(true);
+    setCargando(true); // 
     setError("");
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -24,7 +24,7 @@ function Login() {
       );
       const user = userCredential.user;
 
-      // ✅ Obtener token del usuario autenticado
+      // ✅ Obtener token del usuario autenticado 
       const token = await user.getIdToken();
 
       // ✅ Guardar token en localStorage (opcional, para usarlo luego en peticiones)
